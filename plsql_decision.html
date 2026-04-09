@@ -1,0 +1,555 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Decision Control — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"> Decision Control</span><span class="nav-badge">31 programs</span></div></header><div class="page-hero"><h2>Decision Control</h2><p>IF IF-ELSE ELSIF CASE CONTINUE EXIT in Oracle PL/SQL</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">31 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">Check positive</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 10;
+BEGIN
+    IF n > 0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Positive\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 10;
+BEGIN
+    IF n &gt; 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Positive</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">Salary > 3000</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER := 3500;
+BEGIN
+    IF sal > 3000 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Salary > 3000\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER := 3500;
+BEGIN
+    IF sal &gt; 3000 THEN
+        DBMS_OUTPUT.PUT_LINE('Salary &gt; 3000');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Salary > 3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">Check even</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 4;
+BEGIN
+    IF MOD(n,2)=0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Even\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 4;
+BEGIN
+    IF MOD(n,2)=0 THEN
+        DBMS_OUTPUT.PUT_LINE('Even');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Even</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">Today is Monday</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    IF TO_CHAR(SYSDATE,\'DAY\') LIKE \'MONDAY%\' THEN
+        DBMS_OUTPUT.PUT_LINE(\'Today is Monday\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    IF TO_CHAR(SYSDATE,'DAY') LIKE 'MONDAY%' THEN
+        DBMS_OUTPUT.PUT_LINE('Today is Monday');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>(Depends on current day)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">Divisible by 5</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 25;
+BEGIN
+    IF MOD(n,5)=0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Divisible by 5\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 25;
+BEGIN
+    IF MOD(n,5)=0 THEN
+        DBMS_OUTPUT.PUT_LINE('Divisible by 5');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Divisible by 5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">Even or Odd</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 7;
+BEGIN
+    IF MOD(n,2)=0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Even\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Odd\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 7;
+BEGIN
+    IF MOD(n,2)=0 THEN
+        DBMS_OUTPUT.PUT_LINE('Even');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Odd');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Odd</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">Positive or Negative</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := -5;
+BEGIN
+    IF n>=0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Positive\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Negative\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := -5;
+BEGIN
+    IF n&gt;=0 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Negative');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Negative</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">Greater of two numbers</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+BEGIN
+    IF a>b THEN
+        DBMS_OUTPUT.PUT_LINE(a);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(b);
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+BEGIN
+    IF a&gt;b THEN
+        DBMS_OUTPUT.PUT_LINE(a);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(b);
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>20</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">Pass or Fail</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    marks NUMBER := 35;
+BEGIN
+    IF marks>=40 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Pass\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Fail\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    marks NUMBER := 35;
+BEGIN
+    IF marks&gt;=40 THEN
+        DBMS_OUTPUT.PUT_LINE('Pass');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Fail');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Fail</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">Salary above or below average</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER := 4000;
+BEGIN
+    IF sal > 3000 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Above Avg\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Below Avg\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER := 4000;
+BEGIN
+    IF sal &gt; 3000 THEN
+        DBMS_OUTPUT.PUT_LINE('Above Avg');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Below Avg');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Above Avg</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">Grade system (ELSIF)</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    marks NUMBER := 75;
+BEGIN
+    IF marks>=80 THEN
+        DBMS_OUTPUT.PUT_LINE(\'A\');
+    ELSIF marks>=60 THEN
+        DBMS_OUTPUT.PUT_LINE(\'B\');
+    ELSIF marks>=40 THEN
+        DBMS_OUTPUT.PUT_LINE(\'C\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Fail\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    marks NUMBER := 75;
+BEGIN
+    IF marks&gt;=80 THEN
+        DBMS_OUTPUT.PUT_LINE('A');
+    ELSIF marks&gt;=60 THEN
+        DBMS_OUTPUT.PUT_LINE('B');
+    ELSIF marks&gt;=40 THEN
+        DBMS_OUTPUT.PUT_LINE('C');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Fail');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>B</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">Greatest of 3 numbers</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    a NUMBER:=10; b NUMBER:=20; c NUMBER:=15;
+BEGIN
+    IF a>b AND a>c THEN
+        DBMS_OUTPUT.PUT_LINE(a);
+    ELSIF b>c THEN
+        DBMS_OUTPUT.PUT_LINE(b);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(c);
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    a NUMBER:=10; b NUMBER:=20; c NUMBER:=15;
+BEGIN
+    IF a&gt;b AND a&gt;c THEN
+        DBMS_OUTPUT.PUT_LINE(a);
+    ELSIF b&gt;c THEN
+        DBMS_OUTPUT.PUT_LINE(b);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(c);
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>20</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">Positive / Negative / Zero</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 0;
+BEGIN
+    IF n>0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Positive\');
+    ELSIF n<0 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Negative\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Zero\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 0;
+BEGIN
+    IF n&gt;0 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive');
+    ELSIF n&lt;0 THEN
+        DBMS_OUTPUT.PUT_LINE('Negative');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Zero');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Zero</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">Salary category</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER := 3500;
+BEGIN
+    IF sal>5000 THEN
+        DBMS_OUTPUT.PUT_LINE(\'High\');
+    ELSIF sal>=3000 THEN
+        DBMS_OUTPUT.PUT_LINE(\'Medium\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Low\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER := 3500;
+BEGIN
+    IF sal&gt;5000 THEN
+        DBMS_OUTPUT.PUT_LINE('High');
+    ELSIF sal&gt;=3000 THEN
+        DBMS_OUTPUT.PUT_LINE('Medium');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Low');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Medium</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">Bonus by job</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    job VARCHAR2(20):=\'MANAGER\';
+BEGIN
+    IF job=\'MANAGER\' THEN
+        DBMS_OUTPUT.PUT_LINE(\'Bonus 20%\');
+    ELSIF job=\'CLERK\' THEN
+        DBMS_OUTPUT.PUT_LINE(\'Bonus 10%\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Bonus 5%\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    job VARCHAR2(20):='MANAGER';
+BEGIN
+    IF job='MANAGER' THEN
+        DBMS_OUTPUT.PUT_LINE('Bonus 20%');
+    ELSIF job='CLERK' THEN
+        DBMS_OUTPUT.PUT_LINE('Bonus 10%');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Bonus 5%');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Bonus 20%</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">CASE — day of week</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    d NUMBER:=3;
+BEGIN
+    CASE d
+        WHEN 1 THEN DBMS_OUTPUT.PUT_LINE(\'Monday\');
+        WHEN 2 THEN DBMS_OUTPUT.PUT_LINE(\'Tuesday\');
+        WHEN 3 THEN DBMS_OUTPUT.PUT_LINE(\'Wednesday\');
+        WHEN 4 THEN DBMS_OUTPUT.PUT_LINE(\'Thursday\');
+        WHEN 5 THEN DBMS_OUTPUT.PUT_LINE(\'Friday\');
+        WHEN 6 THEN DBMS_OUTPUT.PUT_LINE(\'Saturday\');
+        WHEN 7 THEN DBMS_OUTPUT.PUT_LINE(\'Sunday\');
+    END CASE;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    d NUMBER:=3;
+BEGIN
+    CASE d
+        WHEN 1 THEN DBMS_OUTPUT.PUT_LINE('Monday');
+        WHEN 2 THEN DBMS_OUTPUT.PUT_LINE('Tuesday');
+        WHEN 3 THEN DBMS_OUTPUT.PUT_LINE('Wednesday');
+        WHEN 4 THEN DBMS_OUTPUT.PUT_LINE('Thursday');
+        WHEN 5 THEN DBMS_OUTPUT.PUT_LINE('Friday');
+        WHEN 6 THEN DBMS_OUTPUT.PUT_LINE('Saturday');
+        WHEN 7 THEN DBMS_OUTPUT.PUT_LINE('Sunday');
+    END CASE;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Wednesday</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">CASE — grade marks</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    marks NUMBER:=85;
+BEGIN
+    CASE
+        WHEN marks>=80 THEN DBMS_OUTPUT.PUT_LINE(\'A\');
+        WHEN marks>=60 THEN DBMS_OUTPUT.PUT_LINE(\'B\');
+        WHEN marks>=40 THEN DBMS_OUTPUT.PUT_LINE(\'C\');
+        ELSE DBMS_OUTPUT.PUT_LINE(\'Fail\');
+    END CASE;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    marks NUMBER:=85;
+BEGIN
+    CASE
+        WHEN marks&gt;=80 THEN DBMS_OUTPUT.PUT_LINE('A');
+        WHEN marks&gt;=60 THEN DBMS_OUTPUT.PUT_LINE('B');
+        WHEN marks&gt;=40 THEN DBMS_OUTPUT.PUT_LINE('C');
+        ELSE DBMS_OUTPUT.PUT_LINE('Fail');
+    END CASE;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>A</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P18</span><span class="qtitle">CASE — even or odd</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER:=5;
+BEGIN
+    CASE MOD(n,2)
+        WHEN 0 THEN DBMS_OUTPUT.PUT_LINE(\'Even\');
+        ELSE DBMS_OUTPUT.PUT_LINE(\'Odd\');
+    END CASE;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER:=5;
+BEGIN
+    CASE MOD(n,2)
+        WHEN 0 THEN DBMS_OUTPUT.PUT_LINE('Even');
+        ELSE DBMS_OUTPUT.PUT_LINE('Odd');
+    END CASE;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Odd</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P19</span><span class="qtitle">CASE — department name</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    d NUMBER:=10;
+BEGIN
+    CASE d
+        WHEN 10 THEN DBMS_OUTPUT.PUT_LINE(\'ACCOUNTING\');
+        WHEN 20 THEN DBMS_OUTPUT.PUT_LINE(\'RESEARCH\');
+        WHEN 30 THEN DBMS_OUTPUT.PUT_LINE(\'SALES\');
+        ELSE DBMS_OUTPUT.PUT_LINE(\'OTHER\');
+    END CASE;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    d NUMBER:=10;
+BEGIN
+    CASE d
+        WHEN 10 THEN DBMS_OUTPUT.PUT_LINE('ACCOUNTING');
+        WHEN 20 THEN DBMS_OUTPUT.PUT_LINE('RESEARCH');
+        WHEN 30 THEN DBMS_OUTPUT.PUT_LINE('SALES');
+        ELSE DBMS_OUTPUT.PUT_LINE('OTHER');
+    END CASE;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>ACCOUNTING</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P20</span><span class="qtitle">CASE — salary category</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER:=2000;
+BEGIN
+    CASE
+        WHEN sal>5000 THEN DBMS_OUTPUT.PUT_LINE(\'High\');
+        WHEN sal>=3000 THEN DBMS_OUTPUT.PUT_LINE(\'Medium\');
+        ELSE DBMS_OUTPUT.PUT_LINE(\'Low\');
+    END CASE;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER:=2000;
+BEGIN
+    CASE
+        WHEN sal&gt;5000 THEN DBMS_OUTPUT.PUT_LINE('High');
+        WHEN sal&gt;=3000 THEN DBMS_OUTPUT.PUT_LINE('Medium');
+        ELSE DBMS_OUTPUT.PUT_LINE('Low');
+    END CASE;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Low</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P21</span><span class="qtitle">CONTINUE — skip 5</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..10 LOOP
+        IF i=5 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..10 LOOP
+        IF i=5 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P22</span><span class="qtitle">CONTINUE — odd numbers</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>3</div><div>5</div><div>7</div><div>9</div><div>11</div><div>13</div><div>15</div><div>17</div><div>19</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P23</span><span class="qtitle">CONTINUE — skip multiples of 3</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..15 LOOP
+        IF MOD(i,3)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..15 LOOP
+        IF MOD(i,3)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>4</div><div>5</div><div>7</div><div>8</div><div>10</div><div>11</div><div>13</div><div>14</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P24</span><span class="qtitle">CONTINUE — skip low salary employees</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c IS SELECT ENAME,SAL FROM SCOTT.EMP;
+BEGIN
+    FOR rec IN c LOOP
+        IF rec.SAL<2000 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(rec.ENAME);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c IS SELECT ENAME,SAL FROM SCOTT.EMP;
+BEGIN
+    FOR rec IN c LOOP
+        IF rec.SAL&lt;2000 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(rec.ENAME);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>JONES</div><div>BLAKE</div><div>CLARK</div><div>SCOTT</div><div>KING</div><div>FORD</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P25</span><span class="qtitle">EXIT when i=5</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..10 LOOP
+        EXIT WHEN i=5;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..10 LOOP
+        EXIT WHEN i=5;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P26</span><span class="qtitle">EXIT when sum > 50</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    s NUMBER:=0;
+    i NUMBER:=1;
+BEGIN
+    LOOP
+        s:=s+i;
+        EXIT WHEN s>50;
+        i:=i+1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    s NUMBER:=0;
+    i NUMBER:=1;
+BEGIN
+    LOOP
+        s:=s+i;
+        EXIT WHEN s&gt;50;
+        i:=i+1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>55</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P27</span><span class="qtitle">EXIT on negative</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER:=5;
+BEGIN
+    LOOP
+        EXIT WHEN n<0;
+        DBMS_OUTPUT.PUT_LINE(n);
+        n:=n-2;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER:=5;
+BEGIN
+    LOOP
+        EXIT WHEN n&lt;0;
+        DBMS_OUTPUT.PUT_LINE(n);
+        n:=n-2;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>5</div><div>3</div><div>1</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P28</span><span class="qtitle">EXIT WHEN example</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER:=1;
+BEGIN
+    LOOP
+        EXIT WHEN i>5;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i:=i+1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER:=1;
+BEGIN
+    LOOP
+        EXIT WHEN i&gt;5;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i:=i+1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P29</span><span class="qtitle">IF + CASE combined</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    marks NUMBER:=70;
+BEGIN
+    IF marks>0 THEN
+        CASE
+            WHEN marks>=60 THEN DBMS_OUTPUT.PUT_LINE(\'Pass\');
+            ELSE DBMS_OUTPUT.PUT_LINE(\'Fail\');
+        END CASE;
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    marks NUMBER:=70;
+BEGIN
+    IF marks&gt;0 THEN
+        CASE
+            WHEN marks&gt;=60 THEN DBMS_OUTPUT.PUT_LINE('Pass');
+            ELSE DBMS_OUTPUT.PUT_LINE('Fail');
+        END CASE;
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Pass</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P30</span><span class="qtitle">LOOP + CONTINUE + EXIT</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER:=1000;
+BEGIN
+    LOOP
+        sal:=sal+500;
+        IF sal<2000 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(sal);
+        EXIT WHEN sal>4000;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER:=1000;
+BEGIN
+    LOOP
+        sal:=sal+500;
+        IF sal&lt;2000 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(sal);
+        EXIT WHEN sal&gt;4000;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>2000</div><div>2500</div><div>3000</div><div>3500</div><div>4000</div><div>4500</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P31</span><span class="qtitle">Login system</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    user_name VARCHAR2(20):=\'admin\';
+    pass VARCHAR2(20):=\'123\';
+BEGIN
+    IF user_name=\'admin\' AND pass=\'123\' THEN
+        DBMS_OUTPUT.PUT_LINE(\'Login Successful\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Invalid Credentials\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    user_name VARCHAR2(20):='admin';
+    pass VARCHAR2(20):='123';
+BEGIN
+    IF user_name='admin' AND pass='123' THEN
+        DBMS_OUTPUT.PUT_LINE('Login Successful');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Invalid Credentials');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Login Successful</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>

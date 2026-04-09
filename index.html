@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCOTT Schema — SQL & PL/SQL Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#f8f7ff; min-height:100vh; color:#1e1b4b; }
+header { background:#fff; border-bottom:2px solid #ede9fe; padding:0 2rem; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px #ede9fe88; }
+.nav { display:flex; align-items:center; gap:1rem; height:68px; }
+.logo { display:flex; align-items:center; gap:12px; }
+.logo-icon { width:44px; height:44px; background:linear-gradient(135deg,#8b5cf6,#6d28d9); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:14px; }
+.logo-text h1 { font-size:1.1rem; font-weight:800; color:#1e1b4b; }
+.logo-text p { font-size:0.7rem; color:#7c3aed; font-family:'JetBrains Mono',monospace; }
+.nav-badge { margin-left:auto; background:#ede9fe; border-radius:20px; padding:6px 16px; font-size:0.75rem; color:#6d28d9; font-weight:700; }
+.hero { text-align:center; padding:4rem 2rem 2.5rem; }
+.hero-badge { display:inline-block; background:#ede9fe; color:#6d28d9; font-size:0.75rem; font-weight:700; padding:6px 16px; border-radius:20px; margin-bottom:1.2rem; }
+.hero h2 { font-size:2.6rem; font-weight:800; color:#1e1b4b; line-height:1.2; margin-bottom:1rem; }
+.hero h2 span { color:#7c3aed; }
+.hero p { color:#6b7280; font-size:1rem; margin-bottom:2rem; max-width:500px; margin-left:auto; margin-right:auto; line-height:1.6; }
+.hero-stats { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.stat-pill { background:#fff; border:1.5px solid #ddd6fe; border-radius:40px; padding:8px 20px; font-size:0.8rem; font-weight:700; color:#6d28d9; }
+.stat-pill span { color:#1e1b4b; }
+.section-tabs { display:flex; gap:1rem; justify-content:center; padding:2.5rem 2rem 1.2rem; flex-wrap:wrap; }
+.tab-btn { padding:0.75rem 2.5rem; border-radius:40px; border:2px solid #ddd6fe; background:#fff; color:#6d28d9; font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; font-weight:700; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px #ede9fe; }
+.tab-btn.active,.tab-btn:hover { background:linear-gradient(135deg,#8b5cf6,#6d28d9); color:#fff; border-color:transparent; box-shadow:0 4px 16px #c4b5fd88; }
+.grid-section { display:none; padding:0.5rem 2rem 3rem; max-width:1100px; margin:0 auto; }
+.grid-section.active { display:block; }
+.section-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#9ca3af; margin-bottom:1.2rem; padding-left:4px; }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+.card { background:#fff; border:1.5px solid #ede9fe; border-radius:16px; padding:1.4rem; cursor:pointer; transition:all 0.2s; text-decoration:none; display:block; box-shadow:0 2px 8px #f3f0ff88; }
+.card:hover { border-color:#a78bfa; transform:translateY(-3px); box-shadow:0 10px 28px #ddd6fe99; }
+.card-icon { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; margin-bottom:1rem; }
+.card h3 { font-size:0.92rem; font-weight:700; color:#1e1b4b; margin-bottom:0.35rem; }
+.card p { font-size:0.73rem; color:#9ca3af; margin-bottom:0.9rem; line-height:1.5; }
+.card-footer { display:flex; align-items:center; justify-content:space-between; }
+.q-count { font-size:0.68rem; font-weight:700; color:#7c3aed; background:#ede9fe; padding:3px 10px; border-radius:20px; }
+.arrow { color:#c4b5fd; font-size:1rem; font-weight:700; transition:color 0.2s; }
+.card:hover .arrow { color:#7c3aed; }
+.ic-purple{background:#ede9fe;} .ic-blue{background:#eff6ff;} .ic-green{background:#f0fdf4;}
+.ic-orange{background:#fff7ed;} .ic-pink{background:#fdf2f8;} .ic-teal{background:#f0fdfa;}
+.ic-red{background:#fef2f2;} .ic-yellow{background:#fefce8;}
+footer { text-align:center; padding:2rem; color:#9ca3af; font-size:0.8rem; border-top:1px solid #ede9fe; background:#fff; margin-top:2rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-icon">DB</div>
+      <div class="logo-text">
+        <h1>SCOTT Schema Reference</h1>
+        <p>scott.emp · scott.dept · Oracle SQL & PL/SQL</p>
+      </div>
+    </div>
+    <div class="nav-badge">650+ Queries</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">Oracle SCOTT Schema</div>
+  <h2>Master <span>SQL & PL/SQL</span><br>with Real Queries</h2>
+  <p>Complete reference of SQL and PL/SQL queries on scott.emp & scott.dept with real tabular output for each query</p>
+  <div class="hero-stats">
+    <div class="stat-pill"><span>12</span> SQL Topics</div>
+    <div class="stat-pill"><span>9</span> PL/SQL Topics</div>
+    <div class="stat-pill"><span>650+</span> Queries</div>
+    <div class="stat-pill"><span>Real</span> Output Tables</div>
+  </div>
+</div>
+
+<div class="section-tabs">
+  <button class="tab-btn active" onclick="showTab('sql',this)"> SQL Commands</button>
+  <button class="tab-btn" onclick="showTab('plsql',this)"> PL/SQL Commands</button>
+</div>
+
+<div id="sql" class="grid-section active">
+  <div class="section-label">SQL Topics — Click any card to explore queries</div>
+  <div class="cards-grid">
+    <a href="select.html" class="card">
+      
+      <h3>SELECT Queries</h3>
+      <p>Basic SELECT, DISTINCT, aliases, expressions and column operations</p>
+      <div class="card-footer"><span class="q-count">10 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="where.html" class="card">
+      <h3>WHERE / ORDER BY / Alias</h3>
+      <p>Filtering, sorting, NULL checks, BETWEEN, IN and comparison operators</p>
+      <div class="card-footer"><span class="q-count">54 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="like.html" class="card">
+      <h3>LIKE Operator</h3>
+      <p>Pattern matching using %, _, NOT LIKE and combined conditions</p>
+      <div class="card-footer"><span class="q-count">62 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="groupby.html" class="card">
+      <h3>GROUP BY / HAVING</h3>
+      <p>Aggregate functions COUNT, SUM, AVG, MAX, MIN with GROUP BY and HAVING</p>
+      <div class="card-footer"><span class="q-count">69 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="subquery.html" class="card">
+      <h3>Subqueries</h3>
+      <p>Single-row, multi-row, correlated subqueries, EXISTS, ALL, ANY</p>
+      <div class="card-footer"><span class="q-count">69 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="joins.html" class="card">
+      <h3>JOINs</h3>
+      <p>Equi join, self join, left join with conditions and aggregates</p>
+      <div class="card-footer"><span class="q-count">40 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="setops.html" class="card">
+      <h3>Set Operators</h3>
+      <p>UNION, UNION ALL, INTERSECT, MINUS with real scott.emp examples</p>
+      <div class="card-footer"><span class="q-count">25 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="scalar.html" class="card">
+      <h3>Scalar Functions</h3>
+      <p>Date, numeric, string, conversion and NULL handling functions</p>
+      <div class="card-footer"><span class="q-count">60 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="ddl.html" class="card">
+      <h3>DDL Commands</h3>
+      <p>CREATE, ALTER, DROP, RENAME, TRUNCATE with complete examples</p>
+      <div class="card-footer"><span class="q-count">50 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="dml.html" class="card">
+      <h3>DML Commands</h3>
+      <p>INSERT, UPDATE, DELETE with conditions, subqueries and bulk ops</p>
+      <div class="card-footer"><span class="q-count">30 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="views.html" class="card">
+      <h3>Views</h3>
+      <p>Simple views, join views, CHECK OPTION, READ ONLY, Materialized Views</p>
+      <div class="card-footer"><span class="q-count">35 queries</span><span class="arrow">→</span></div>
+    </a>
+    <a href="tcl_dcl.html" class="card">
+      <h3>TCL & DCL Commands</h3>
+      <p>COMMIT, ROLLBACK, SAVEPOINT, GRANT, REVOKE with detailed examples</p>
+      <div class="card-footer"><span class="q-count">35 queries</span><span class="arrow">→</span></div>
+    </a>
+  </div>
+</div>
+
+<div id="plsql" class="grid-section">
+  <div class="section-label">PL/SQL Topics — Click any card to explore programs</div>
+  <div class="cards-grid">
+    <a href="plsql_basics.html" class="card">
+      <h3>PL/SQL Basics</h3>
+      <p>Output statements, variables, constants, datatypes, %TYPE and %ROWTYPE</p>
+      <div class="card-footer"><span class="q-count">22 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="plsql_decision.html" class="card">
+      <h3>Decision Control</h3>
+      <p>IF, IF-ELSE, ELSIF, CASE statements with CONTINUE and EXIT</p>
+      <div class="card-footer"><span class="q-count">31 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="plsql_loops.html" class="card">
+      <h3>Iterative Control</h3>
+      <p>Simple LOOP, WHILE loop, FOR loop, nested loops and table operations</p>
+      <div class="card-footer"><span class="q-count">32 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="plsql_select.html" class="card">
+      <h3>SELECT / %TYPE / %ROWTYPE</h3>
+      <p>SELECT INTO, %TYPE, %ROWTYPE, fetch, update and insert using records</p>
+      <div class="card-footer"><span class="q-count">17 programs</span><span class="arrow">→</span></div>
+    </a>
+    
+    <a href="cursors.html" class="card">
+      <h3>Cursors</h3>
+      <p>Implicit explicit parameterized FOR UPDATE cursors on scott.emp</p>
+      <div class="card-footer"><span class="q-count">30 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="procedures.html" class="card">
+      <h3>Stored Procedures & Functions</h3>
+      <p>CREATE PROCEDURE, CREATE FUNCTION, IN OUT parameters, transactions</p>
+      <div class="card-footer"><span class="q-count">33 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="packages.html" class="card">
+      <h3>Packages</h3>
+      <p>Package spec body, overloading, global vars, CRUD, banking simulation</p>
+      <div class="card-footer"><span class="q-count">30 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="exceptions.html" class="card">
+      <h3>Exception Handling</h3>
+      <p>NO_DATA_FOUND, ZERO_DIVIDE, user-defined, RAISE_APPLICATION_ERROR</p>
+      <div class="card-footer"><span class="q-count">27 programs</span><span class="arrow">→</span></div>
+    </a>
+    <a href="triggers.html" class="card">
+      <h3>Triggers</h3>
+      <p>BEFORE AFTER INSERT UPDATE DELETE row-level compound triggers</p>
+      <div class="card-footer"><span class="q-count">30 programs</span><span class="arrow">→</span></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  Built with  &nbsp;·&nbsp; SCOTT Schema Reference &nbsp;·&nbsp; scott.emp & scott.dept &nbsp;·&nbsp; Oracle SQL & PL/SQL
+</footer>
+
+<script>
+function showTab(tab, btn) {
+  document.querySelectorAll('.grid-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

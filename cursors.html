@@ -1,0 +1,501 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Cursors — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"> Cursors</span><span class="nav-badge">30 programs</span></div></header><div class="page-hero"><h2>Cursors</h2><p>Implicit explicit parameterized FOR UPDATE cursors on scott.emp</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">30 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">Declare cursor to fetch all employee names</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH</div><div>ALLEN</div><div>WARD</div><div>JONES</div><div>MARTIN</div><div>BLAKE</div><div>CLARK</div><div>SCOTT</div><div>KING</div><div>TURNER</div><div>ADAMS</div><div>JAMES</div><div>FORD</div><div>MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">Fetch employee name and salary using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' \' || rec.sal);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' ' || rec.sal);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH 800</div><div>ALLEN 1600</div><div>WARD 1250</div><div>JONES 2975</div><div>MARTIN 1250</div><div>BLAKE 2850</div><div>CLARK 2450</div><div>SCOTT 3000</div><div>KING 5000</div><div>TURNER 1500</div><div>ADAMS 1100</div><div>JAMES 950</div><div>FORD 3000</div><div>MILLER 1300</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">Employees with salary > 3000 using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp WHERE sal > 3000;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' \' || rec.sal);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp WHERE sal &gt; 3000;
+BEGIN
+    FOR rec IN c1 LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' ' || rec.sal);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>KING 5000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">Count employees using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT empno FROM scott.emp;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Count: \' || cnt);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT empno FROM scott.emp;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Count: ' || cnt);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Count: 14</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">Total salary using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp;
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Total Salary: \' || total);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp;
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Total Salary: ' || total);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Total Salary: 29025</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">OPEN, FETCH, CLOSE example</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename FROM scott.emp;
+    v_name scott.emp.ename%TYPE;
+BEGIN
+    OPEN c1;
+    LOOP
+        FETCH c1 INTO v_name;
+        EXIT WHEN c1%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_name);
+    END LOOP;
+    CLOSE c1;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename FROM scott.emp;
+    v_name scott.emp.ename%TYPE;
+BEGIN
+    OPEN c1;
+    LOOP
+        FETCH c1 INTO v_name;
+        EXIT WHEN c1%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_name);
+    END LOOP;
+    CLOSE c1;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH</div><div>ALLEN</div><div>WARD</div><div>JONES</div><div>MARTIN</div><div>BLAKE</div><div>CLARK</div><div>SCOTT</div><div>KING</div><div>TURNER</div><div>ADAMS</div><div>JAMES</div><div>FORD</div><div>MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">Display all records using implicit cursor FOR LOOP</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT * FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.empno || \' \' || rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT * FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.empno || ' ' || rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>7369 SMITH</div><div>7499 ALLEN</div><div>7521 WARD</div><div>7566 JONES</div><div>7654 MARTIN</div><div>7698 BLAKE</div><div>7782 CLARK</div><div>7788 SCOTT</div><div>7839 KING</div><div>7844 TURNER</div><div>7876 ADAMS</div><div>7900 JAMES</div><div>7902 FORD</div><div>7934 MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">Names and jobs using cursor FOR LOOP</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT ename, job FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' \' || rec.job);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT ename, job FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' ' || rec.job);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH CLERK</div><div>ALLEN SALESMAN</div><div>WARD SALESMAN</div><div>JONES MANAGER</div><div>MARTIN SALESMAN</div><div>BLAKE MANAGER</div><div>CLARK MANAGER</div><div>SCOTT ANALYST</div><div>KING PRESIDENT</div><div>TURNER SALESMAN</div><div>ADAMS CLERK</div><div>JAMES CLERK</div><div>FORD ANALYST</div><div>MILLER CLERK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">Employees from department 10 using cursor</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT * FROM scott.emp WHERE deptno = 10) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT * FROM scott.emp WHERE deptno = 10) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>CLARK</div><div>KING</div><div>MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">Total salary using implicit cursor FOR LOOP</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN (SELECT sal FROM scott.emp) LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(total);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN (SELECT sal FROM scott.emp) LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(total);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>29025</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">Salary greater than average using cursor</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (
+        SELECT ename, sal FROM scott.emp
+        WHERE sal > (SELECT AVG(sal) FROM scott.emp)
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' \' || rec.sal);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (
+        SELECT ename, sal FROM scott.emp
+        WHERE sal &gt; (SELECT AVG(sal) FROM scott.emp)
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' ' || rec.sal);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>JONES 2975</div><div>BLAKE 2850</div><div>CLARK 2450</div><div>SCOTT 3000</div><div>KING 5000</div><div>FORD 3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">Parameterized cursor — employees by department</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT ename FROM scott.emp WHERE deptno = dno;
+BEGIN
+    FOR rec IN c1(10) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT ename FROM scott.emp WHERE deptno = dno;
+BEGIN
+    FOR rec IN c1(10) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>CLARK</div><div>KING</div><div>MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">Parameterized cursor — salary greater than given value</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(v_sal NUMBER) IS
+        SELECT ename FROM scott.emp WHERE sal > v_sal;
+BEGIN
+    FOR rec IN c1(2000) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(v_sal NUMBER) IS
+        SELECT ename FROM scott.emp WHERE sal &gt; v_sal;
+BEGIN
+    FOR rec IN c1(2000) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>JONES</div><div>BLAKE</div><div>CLARK</div><div>SCOTT</div><div>KING</div><div>FORD</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">Parameterized cursor — employees by job role</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(v_job VARCHAR2) IS
+        SELECT ename FROM scott.emp WHERE job = v_job;
+BEGIN
+    FOR rec IN c1(\'MANAGER\') LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(v_job VARCHAR2) IS
+        SELECT ename FROM scott.emp WHERE job = v_job;
+BEGIN
+    FOR rec IN c1('MANAGER') LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>JONES</div><div>BLAKE</div><div>CLARK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">Total salary of given department (parameterized cursor)</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT sal FROM scott.emp WHERE deptno = dno;
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN c1(10) LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(total);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT sal FROM scott.emp WHERE deptno = dno;
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN c1(10) LOOP
+        total := total + rec.sal;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(total);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>8750</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">Cursor with multiple parameters</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(dno NUMBER, j VARCHAR2) IS
+        SELECT ename FROM scott.emp
+        WHERE deptno = dno AND job = j;
+BEGIN
+    FOR rec IN c1(10, \'MANAGER\') LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(dno NUMBER, j VARCHAR2) IS
+        SELECT ename FROM scott.emp
+        WHERE deptno = dno AND job = j;
+BEGIN
+    FOR rec IN c1(10, 'MANAGER') LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>CLARK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">Update salary using FOR UPDATE cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal + 100
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal + 100
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>14 rows updated — each employee salary increased by 100</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P18</span><span class="qtitle">Increase salary by 10% using FOR UPDATE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal * 1.10
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal * 1.10
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>14 rows updated — salary increased by 10%</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P19</span><span class="qtitle">Delete employees with salary < 2000 using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT * FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.sal < 2000 THEN
+            DELETE FROM scott.emp WHERE CURRENT OF c1;
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT * FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.sal &lt; 2000 THEN
+            DELETE FROM scott.emp WHERE CURRENT OF c1;
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Deleted: SMITH(800), WARD(1250), MARTIN(1250), TURNER(1500), ADAMS(1100), JAMES(950), MILLER(1300)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P20</span><span class="qtitle">Update job for all using FOR UPDATE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT job FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET job = \'CLERK\'
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT job FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET job = 'CLERK'
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>14 rows updated — all jobs set to CLERK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P21</span><span class="qtitle">Add 500 to each salary row by row</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = rec.sal + 500
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = rec.sal + 500
+        WHERE CURRENT OF c1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>14 rows updated — 500 added to each salary</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P22</span><span class="qtitle">Display high salary employees using cursor + IF</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.sal > 3000 THEN
+            DBMS_OUTPUT.PUT_LINE(rec.ename);
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.sal &gt; 3000 THEN
+            DBMS_OUTPUT.PUT_LINE(rec.ename);
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>KING</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P23</span><span class="qtitle">Bonus calculation using cursor</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT ename, sal FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' Bonus: \' || (rec.sal * 0.10));
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT ename, sal FROM scott.emp) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' Bonus: ' || (rec.sal * 0.10));
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH Bonus: 80</div><div>ALLEN Bonus: 160</div><div>WARD Bonus: 125</div><div>JONES Bonus: 297.5</div><div>MARTIN Bonus: 125</div><div>BLAKE Bonus: 285</div><div>CLARK Bonus: 245</div><div>SCOTT Bonus: 300</div><div>KING Bonus: 500</div><div>TURNER Bonus: 150</div><div>ADAMS Bonus: 110</div><div>JAMES Bonus: 95</div><div>FORD Bonus: 300</div><div>MILLER Bonus: 130</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P24</span><span class="qtitle">Loop multiple departments using parameterized cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT ename FROM scott.emp WHERE deptno = dno;
+BEGIN
+    FOR i IN 10..30 LOOP
+        FOR rec IN c1(i) LOOP
+            DBMS_OUTPUT.PUT_LINE(rec.ename);
+        END LOOP;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1(dno NUMBER) IS
+        SELECT ename FROM scott.emp WHERE deptno = dno;
+BEGIN
+    FOR i IN 10..30 LOOP
+        FOR rec IN c1(i) LOOP
+            DBMS_OUTPUT.PUT_LINE(rec.ename);
+        END LOOP;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>CLARK</div><div>KING</div><div>MILLER</div><div>SMITH</div><div>JONES</div><div>SCOTT</div><div>ADAMS</div><div>FORD</div><div>ALLEN</div><div>WARD</div><div>MARTIN</div><div>BLAKE</div><div>TURNER</div><div>JAMES</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P25</span><span class="qtitle">Update salary +100 and display name</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal + 100
+        WHERE CURRENT OF c1;
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT ename, sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        UPDATE scott.emp SET sal = sal + 100
+        WHERE CURRENT OF c1;
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH</div><div>ALLEN</div><div>WARD</div><div>JONES</div><div>MARTIN</div><div>BLAKE</div><div>CLARK</div><div>SCOTT</div><div>KING</div><div>TURNER</div><div>ADAMS</div><div>JAMES</div><div>FORD</div><div>MILLER</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P26</span><span class="qtitle">Top 3 highest paid employees</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS
+        SELECT ename, sal FROM scott.emp ORDER BY sal DESC;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+        EXIT WHEN cnt > 3;
+        DBMS_OUTPUT.PUT_LINE(rec.ename || \' \' || rec.sal);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS
+        SELECT ename, sal FROM scott.emp ORDER BY sal DESC;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+        EXIT WHEN cnt &gt; 3;
+        DBMS_OUTPUT.PUT_LINE(rec.ename || ' ' || rec.sal);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>KING 5000</div><div>SCOTT 3000</div><div>FORD 3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P27</span><span class="qtitle">Pagination — first 5 rows</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT * FROM scott.emp;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+        EXIT WHEN cnt > 5;
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT * FROM scott.emp;
+    cnt NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        cnt := cnt + 1;
+        EXIT WHEN cnt &gt; 5;
+        DBMS_OUTPUT.PUT_LINE(rec.ename);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH</div><div>ALLEN</div><div>WARD</div><div>JONES</div><div>MARTIN</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P28</span><span class="qtitle">Copy data to another table using cursor</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT * FROM scott.emp) LOOP
+        INSERT INTO emp_copy VALUES rec;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT * FROM scott.emp) LOOP
+        INSERT INTO emp_copy VALUES rec;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>14 rows inserted into emp_copy</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P29</span><span class="qtitle">Department-wise employee count using cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT deptno FROM scott.emp;
+    d10 NUMBER := 0;
+    d20 NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.deptno = 10 THEN d10 := d10 + 1;
+        ELSIF rec.deptno = 20 THEN d20 := d20 + 1;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Dept10: \'||d10||\' Dept20: \'||d20);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT deptno FROM scott.emp;
+    d10 NUMBER := 0;
+    d20 NUMBER := 0;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.deptno = 10 THEN d10 := d10 + 1;
+        ELSIF rec.deptno = 20 THEN d20 := d20 + 1;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Dept10: '||d10||' Dept20: '||d20);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Dept10: 3 Dept20: 5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P30</span><span class="qtitle">Salary increment based on job using FOR UPDATE cursor</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    CURSOR c1 IS SELECT job, sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.job = \'MANAGER\' THEN
+            UPDATE scott.emp SET sal = sal * 1.20
+            WHERE CURRENT OF c1;
+        ELSIF rec.job = \'CLERK\' THEN
+            UPDATE scott.emp SET sal = sal * 1.10
+            WHERE CURRENT OF c1;
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    CURSOR c1 IS SELECT job, sal FROM scott.emp FOR UPDATE;
+BEGIN
+    FOR rec IN c1 LOOP
+        IF rec.job = 'MANAGER' THEN
+            UPDATE scott.emp SET sal = sal * 1.20
+            WHERE CURRENT OF c1;
+        ELSIF rec.job = 'CLERK' THEN
+            UPDATE scott.emp SET sal = sal * 1.10
+            WHERE CURRENT OF c1;
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>MANAGERS: 20% increment (JONES, BLAKE, CLARK)</div><div>CLERKs: 10% increment (SMITH, ADAMS, JAMES, MILLER)</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>

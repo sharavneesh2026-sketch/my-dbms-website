@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SELECT / %TYPE / %ROWTYPE — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"> SELECT / %TYPE / %ROWTYPE</span><span class="nav-badge">17 programs</span></div></header><div class="page-hero"><h2>SELECT / %TYPE / %ROWTYPE</h2><p>SELECT INTO %TYPE %ROWTYPE fetch update insert using records</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">17 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">Fetch ENAME for EMPNO 7369</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE;
+BEGIN
+    SELECT ENAME INTO v_name FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(\'Name: \'||v_name);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE;
+BEGIN
+    SELECT ENAME INTO v_name FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE('Name: '||v_name);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Name: SMITH</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">Fetch salary</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(\'Salary: \'||v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE('Salary: '||v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Salary: 800</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">Fetch ENAME and JOB</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE;
+    v_job  SCOTT.EMP.JOB%TYPE;
+BEGIN
+    SELECT ENAME,JOB INTO v_name,v_job FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_name||\' - \'||v_job);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE;
+    v_job  SCOTT.EMP.JOB%TYPE;
+BEGIN
+    SELECT ENAME,JOB INTO v_name,v_job FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_name||' - '||v_job);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH - CLERK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">Fetch DEPTNO</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_dept SCOTT.EMP.DEPTNO%TYPE;
+BEGIN
+    SELECT DEPTNO INTO v_dept FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(\'Dept: \'||v_dept);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_dept SCOTT.EMP.DEPTNO%TYPE;
+BEGIN
+    SELECT DEPTNO INTO v_dept FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE('Dept: '||v_dept);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Dept: 20</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">Fetch HIREDATE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_date SCOTT.EMP.HIREDATE%TYPE;
+BEGIN
+    SELECT HIREDATE INTO v_date FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(\'Hire Date: \'||v_date);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_date SCOTT.EMP.HIREDATE%TYPE;
+BEGIN
+    SELECT HIREDATE INTO v_date FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE('Hire Date: '||v_date);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Hire Date: 17-DEC-80</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">Count employees</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM SCOTT.EMP;
+    DBMS_OUTPUT.PUT_LINE(\'Total: \'||v_count);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM SCOTT.EMP;
+    DBMS_OUTPUT.PUT_LINE('Total: '||v_count);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Total: 14</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">Declare using %TYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE := 2000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE := 2000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>2000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">ENAME and JOB using %TYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE := \'RAM\';
+    v_job  SCOTT.EMP.JOB%TYPE := \'CLERK\';
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name||\' \'||v_job);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_name SCOTT.EMP.ENAME%TYPE := 'RAM';
+    v_job  SCOTT.EMP.JOB%TYPE := 'CLERK';
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name||' '||v_job);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>RAM CLERK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">Annual salary using %TYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+    v_annual NUMBER;
+BEGIN
+    SELECT SAL INTO v_sal FROM SCOTT.EMP WHERE EMPNO=7369;
+    v_annual := v_sal * 12;
+    DBMS_OUTPUT.PUT_LINE(\'Annual: \'||v_annual);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+    v_annual NUMBER;
+BEGIN
+    SELECT SAL INTO v_sal FROM SCOTT.EMP WHERE EMPNO=7369;
+    v_annual := v_sal * 12;
+    DBMS_OUTPUT.PUT_LINE('Annual: '||v_annual);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Annual: 9600</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">Update salary using %TYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    v_sal := 3000;
+    UPDATE SCOTT.EMP SET SAL=v_sal WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(\'Salary updated to: \'||v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    v_sal := 3000;
+    UPDATE SCOTT.EMP SET SAL=v_sal WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE('Salary updated to: '||v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Salary updated to: 3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">%TYPE from DEPT</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_dname SCOTT.DEPT.DNAME%TYPE := \'SALES\';
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_dname);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_dname SCOTT.DEPT.DNAME%TYPE := 'SALES';
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_dname);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SALES</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">Declare %ROWTYPE record</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    NULL;
+    DBMS_OUTPUT.PUT_LINE(\'Record declared OK\');
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    NULL;
+    DBMS_OUTPUT.PUT_LINE('Record declared OK');
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Record declared OK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">Fetch full record using %ROWTYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_emp.ENAME||\' \'||v_emp.SAL);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_emp.ENAME||' '||v_emp.SAL);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH 800</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">Display ENAME SAL JOB from %ROWTYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_emp.ENAME||\' \'||v_emp.SAL||\' \'||v_emp.JOB);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    DBMS_OUTPUT.PUT_LINE(v_emp.ENAME||' '||v_emp.SAL||' '||v_emp.JOB);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH 800 CLERK</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">Update using %ROWTYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    v_emp.SAL := v_emp.SAL + 500;
+    UPDATE SCOTT.EMP SET SAL=v_emp.SAL WHERE EMPNO=v_emp.EMPNO;
+    DBMS_OUTPUT.PUT_LINE(\'Updated SAL: \'||v_emp.SAL);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM SCOTT.EMP WHERE EMPNO=7369;
+    v_emp.SAL := v_emp.SAL + 500;
+    UPDATE SCOTT.EMP SET SAL=v_emp.SAL WHERE EMPNO=v_emp.EMPNO;
+    DBMS_OUTPUT.PUT_LINE('Updated SAL: '||v_emp.SAL);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Updated SAL: 1300</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">Insert using %ROWTYPE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    v_emp.EMPNO:=9999; v_emp.ENAME:=\'TEST\'; v_emp.JOB:=\'CLERK\';
+    v_emp.MGR:=7902; v_emp.HIREDATE:=SYSDATE; v_emp.SAL:=1000;
+    v_emp.COMM:=NULL; v_emp.DEPTNO:=10;
+    INSERT INTO SCOTT.EMP VALUES v_emp;
+    DBMS_OUTPUT.PUT_LINE(\'Inserted: \'||v_emp.ENAME);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_emp SCOTT.EMP%ROWTYPE;
+BEGIN
+    v_emp.EMPNO:=9999; v_emp.ENAME:='TEST'; v_emp.JOB:='CLERK';
+    v_emp.MGR:=7902; v_emp.HIREDATE:=SYSDATE; v_emp.SAL:=1000;
+    v_emp.COMM:=NULL; v_emp.DEPTNO:=10;
+    INSERT INTO SCOTT.EMP VALUES v_emp;
+    DBMS_OUTPUT.PUT_LINE('Inserted: '||v_emp.ENAME);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Inserted: TEST</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">Fetch MAX salary</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_max SCOTT.EMP.SAL%TYPE;
+BEGIN
+    SELECT MAX(SAL) INTO v_max FROM SCOTT.EMP;
+    DBMS_OUTPUT.PUT_LINE(\'Max Salary: \'||v_max);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_max SCOTT.EMP.SAL%TYPE;
+BEGIN
+    SELECT MAX(SAL) INTO v_max FROM SCOTT.EMP;
+    DBMS_OUTPUT.PUT_LINE('Max Salary: '||v_max);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Max Salary: 5000</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>

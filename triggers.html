@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Triggers — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"></span> Triggers</span><span class="nav-badge">30 programs</span></div></header><div class="page-hero"><h2>Triggers</h2><p>BEFORE AFTER INSERT UPDATE DELETE row-level statement-level compound triggers</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">30 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">AFTER INSERT trigger — display message</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg1
+AFTER INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Record inserted\');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9001,\'TEST\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg1
+AFTER INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Record inserted');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9001,'TEST','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Record inserted</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">BEFORE INSERT trigger — display message</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg2
+BEFORE INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Before insert fired\');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9002,\'T2\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg2
+BEFORE INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Before insert fired');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9002,'T2','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Before insert fired</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">AFTER DELETE trigger — display message</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg3
+AFTER DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Record deleted\');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 9999;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg3
+AFTER DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Record deleted');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 9999;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Record deleted</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">BEFORE DELETE trigger — prevent deletion</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg4
+BEFORE DELETE ON emp
+BEGIN
+    RAISE_APPLICATION_ERROR(-20001,\'Deletion not allowed\');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg4
+BEFORE DELETE ON emp
+BEGIN
+    RAISE_APPLICATION_ERROR(-20001,'Deletion not allowed');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20001: Deletion not allowed</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">AFTER UPDATE OF SAL — salary updated message</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg5
+AFTER UPDATE OF sal ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Salary updated\');
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg5
+AFTER UPDATE OF sal ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Salary updated');
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Salary updated</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">Row-level trigger — show old and new salary</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg6
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Old: \'||:OLD.sal||\' New: \'||:NEW.sal);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg6
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Old: '||:OLD.sal||' New: '||:NEW.sal);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Old: 800 New: 2000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">BEFORE UPDATE — restrict salary decrease</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg7
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal < :OLD.sal THEN
+        RAISE_APPLICATION_ERROR(-20002,\'Salary cannot decrease\');
+    END IF;
+END;
+/
+-- Test:
+UPDATE emp SET sal = 500 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg7
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal &lt; :OLD.sal THEN
+        RAISE_APPLICATION_ERROR(-20002,'Salary cannot decrease');
+    END IF;
+END;
+/
+-- Test:
+UPDATE emp SET sal = 500 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20002: Salary cannot decrease</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">BEFORE INSERT — auto set hire date to SYSDATE</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg8
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    :NEW.hiredate := SYSDATE;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9003,\'T3\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg8
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    :NEW.hiredate := SYSDATE;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9003,'T3','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row inserted — HIREDATE automatically set to today</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">BEFORE UPDATE — increase salary by 5% automatically</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg9
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    :NEW.sal := :OLD.sal * 1.05;
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg9
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    :NEW.sal := :OLD.sal * 1.05;
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>SMITH salary: 800 → 840 (5% increase applied)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">AFTER DELETE — copy deleted record to audit table</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg10
+AFTER DELETE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_audit
+    VALUES(:OLD.empno, :OLD.ename, SYSDATE);
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 9999;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg10
+AFTER DELETE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_audit
+    VALUES(:OLD.empno, :OLD.ename, SYSDATE);
+END;
+/
+-- Test:
+DELETE FROM emp WHERE empno = 9999;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row deleted and copied to emp_audit</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">Statement-level AFTER INSERT trigger</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg11
+AFTER INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'INSERT statement executed on EMP\');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9004,\'T4\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg11
+AFTER INSERT ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('INSERT statement executed on EMP');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9004,'T4','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>INSERT statement executed on EMP</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">AFTER UPDATE — log update to emp_log table</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg12
+AFTER UPDATE ON emp
+BEGIN
+    INSERT INTO emp_log VALUES(\'UPDATE\', SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg12
+AFTER UPDATE ON emp
+BEGIN
+    INSERT INTO emp_log VALUES('UPDATE', SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>3 rows updated — 1 row inserted into emp_log</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">Statement-level AFTER DELETE trigger</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg13
+AFTER DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'DELETE statement executed on EMP\');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE sal < 1000;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg13
+AFTER DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('DELETE statement executed on EMP');
+END;
+/
+-- Test:
+DELETE FROM emp WHERE sal &lt; 1000;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>DELETE statement executed on EMP</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">BEFORE INSERT — validate salary >= 1000</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg14
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal < 1000 THEN
+        RAISE_APPLICATION_ERROR(-20003,\'Salary must be >= 1000\');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9005,\'T5\',\'CLERK\',500,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg14
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal &lt; 1000 THEN
+        RAISE_APPLICATION_ERROR(-20003,'Salary must be &gt;= 1000');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9005,'T5','CLERK',500,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20003: Salary must be >= 1000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">AFTER INSERT — log new employee empno</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg15
+AFTER INSERT ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_log VALUES(:NEW.empno, SYSDATE);
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9006,\'T6\',\'CLERK\',1500,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg15
+AFTER INSERT ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_log VALUES(:NEW.empno, SYSDATE);
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9006,'T6','CLERK',1500,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row inserted — EMPNO 9006 logged in emp_log</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">BEFORE UPDATE and AFTER UPDATE triggers together</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg16_b
+BEFORE UPDATE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Before update\');
+END;
+/
+CREATE OR REPLACE TRIGGER trg16_a
+AFTER UPDATE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'After update\');
+END;
+/
+-- Test:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg16_b
+BEFORE UPDATE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Before update');
+END;
+/
+CREATE OR REPLACE TRIGGER trg16_a
+AFTER UPDATE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('After update');
+END;
+/
+-- Test:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Before update</div><div>After update</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">Trigger fires when salary > 5000 (WHEN condition)</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg17
+AFTER INSERT OR UPDATE ON emp
+FOR EACH ROW
+WHEN (NEW.sal > 5000)
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Warning: High salary — \'||:NEW.sal);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 6000 WHERE empno = 7839;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg17
+AFTER INSERT OR UPDATE ON emp
+FOR EACH ROW
+WHEN (NEW.sal &gt; 5000)
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Warning: High salary — '||:NEW.sal);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 6000 WHERE empno = 7839;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Warning: High salary — 6000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P18</span><span class="qtitle">BEFORE INSERT — allow only during working hours</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg18
+BEFORE INSERT ON emp
+BEGIN
+    IF TO_CHAR(SYSDATE,\'HH24\') NOT BETWEEN \'09\' AND \'18\' THEN
+        RAISE_APPLICATION_ERROR(-20004,\'Outside working hours\');
+    END IF;
+END;
+/
+-- Test (if outside 9am-6pm):
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9007,\'T7\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg18
+BEFORE INSERT ON emp
+BEGIN
+    IF TO_CHAR(SYSDATE,'HH24') NOT BETWEEN '09' AND '18' THEN
+        RAISE_APPLICATION_ERROR(-20004,'Outside working hours');
+    END IF;
+END;
+/
+-- Test (if outside 9am-6pm):
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9007,'T7','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20004: Outside working hours (if triggered outside 9-18)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P19</span><span class="qtitle">BEFORE UPDATE — prevent updates on weekends</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg19
+BEFORE UPDATE ON emp
+BEGIN
+    IF TO_CHAR(SYSDATE,\'DY\') IN (\'SAT\',\'SUN\') THEN
+        RAISE_APPLICATION_ERROR(-20005,\'No updates allowed on weekends\');
+    END IF;
+END;
+/
+-- Test on a weekday:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg19
+BEFORE UPDATE ON emp
+BEGIN
+    IF TO_CHAR(SYSDATE,'DY') IN ('SAT','SUN') THEN
+        RAISE_APPLICATION_ERROR(-20005,'No updates allowed on weekends');
+    END IF;
+END;
+/
+-- Test on a weekday:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row updated (weekday) OR ORA-20005: No updates allowed on weekends</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P20</span><span class="qtitle">Audit trigger — INSERT, UPDATE, DELETE</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg20
+AFTER INSERT OR UPDATE OR DELETE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_audit VALUES(SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg20
+AFTER INSERT OR UPDATE OR DELETE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_audit VALUES(SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>3 rows in emp_audit inserted (one per row updated)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P21</span><span class="qtitle">BEFORE INSERT — auto-generate employee ID</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg21
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    SELECT NVL(MAX(empno),0)+1 INTO :NEW.empno FROM emp;
+END;
+/
+-- Test:
+INSERT INTO emp(ename,job,sal,deptno) VALUES(\'AUTO\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg21
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    SELECT NVL(MAX(empno),0)+1 INTO :NEW.empno FROM emp;
+END;
+/
+-- Test:
+INSERT INTO emp(ename,job,sal,deptno) VALUES('AUTO','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row inserted — EMPNO auto-generated as MAX(EMPNO)+1</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P22</span><span class="qtitle">BEFORE INSERT — referential integrity check on DEPTNO</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg22
+BEFORE INSERT ON emp
+FOR EACH ROW
+DECLARE
+    v NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v FROM dept WHERE deptno=:NEW.deptno;
+    IF v=0 THEN
+        RAISE_APPLICATION_ERROR(-20006,\'Invalid department number\');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9008,\'T8\',\'CLERK\',1000,99);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg22
+BEFORE INSERT ON emp
+FOR EACH ROW
+DECLARE
+    v NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v FROM dept WHERE deptno=:NEW.deptno;
+    IF v=0 THEN
+        RAISE_APPLICATION_ERROR(-20006,'Invalid department number');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9008,'T8','CLERK',1000,99);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20006: Invalid department number</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P23</span><span class="qtitle">AFTER UPDATE OF SAL — display bonus</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg23
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'New Bonus: \'||(:NEW.sal*0.10));
+END;
+/
+-- Test:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg23
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('New Bonus: '||(:NEW.sal*0.10));
+END;
+/
+-- Test:
+UPDATE emp SET sal = 3000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>New Bonus: 300</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P24</span><span class="qtitle">AFTER INSERT OR DELETE — rows affected message</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg24
+AFTER INSERT OR DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'INSERT or DELETE statement completed\');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9009,\'T9\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg24
+AFTER INSERT OR DELETE ON emp
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('INSERT or DELETE statement completed');
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9009,'T9','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>INSERT or DELETE statement completed</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P25</span><span class="qtitle">BEFORE INSERT — prevent duplicate employee names</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg25
+BEFORE INSERT ON emp
+FOR EACH ROW
+DECLARE
+    v NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v FROM emp WHERE ename=:NEW.ename;
+    IF v>0 THEN
+        RAISE_APPLICATION_ERROR(-20007,\'Duplicate employee name\');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9010,\'SMITH\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg25
+BEFORE INSERT ON emp
+FOR EACH ROW
+DECLARE
+    v NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v FROM emp WHERE ename=:NEW.ename;
+    IF v&gt;0 THEN
+        RAISE_APPLICATION_ERROR(-20007,'Duplicate employee name');
+    END IF;
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9010,'SMITH','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20007: Duplicate employee name</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P26</span><span class="qtitle">AFTER UPDATE — log user and timestamp</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg26
+AFTER UPDATE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_log VALUES(USER, SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg26
+AFTER UPDATE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp_log VALUES(USER, SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row inserted in emp_log — USER=SCOTT, DATE=07-APR-26</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P27</span><span class="qtitle">BEFORE UPDATE — restrict salary increase > 20%</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg27
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal > :OLD.sal * 1.20 THEN
+        RAISE_APPLICATION_ERROR(-20008,\'Salary increase cannot exceed 20%\');
+    END IF;
+END;
+/
+-- Test:
+UPDATE emp SET sal = 5000 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg27
+BEFORE UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal &gt; :OLD.sal * 1.20 THEN
+        RAISE_APPLICATION_ERROR(-20008,'Salary increase cannot exceed 20%');
+    END IF;
+END;
+/
+-- Test:
+UPDATE emp SET sal = 5000 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>ORA-20008: Salary increase cannot exceed 20%</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P28</span><span class="qtitle">Trigger calling a package procedure</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg28
+AFTER INSERT ON emp
+BEGIN
+    pkg1.hello;  -- calls pkg1 procedure
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9011,\'T11\',\'CLERK\',1000,10);`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg28
+AFTER INSERT ON emp
+BEGIN
+    pkg1.hello;  -- calls pkg1 procedure
+END;
+/
+-- Test:
+INSERT INTO emp(empno,ename,job,sal,deptno) VALUES(9011,'T11','CLERK',1000,10);</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Hello Oracle (called from trigger via pkg1.hello)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P29</span><span class="qtitle">AFTER UPDATE OF SAL — maintain salary history</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg29
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO sal_history
+    VALUES(:OLD.empno, :OLD.sal, :NEW.sal, SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2500 WHERE empno = 7369;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg29
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO sal_history
+    VALUES(:OLD.empno, :OLD.sal, :NEW.sal, SYSDATE);
+END;
+/
+-- Test:
+UPDATE emp SET sal = 2500 WHERE empno = 7369;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>1 row in sal_history: EMPNO=7369, OLD=800, NEW=2500, DATE=07-APR-26</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P30</span><span class="qtitle">Compound trigger — BEFORE STATEMENT + AFTER EACH ROW + AFTER STATEMENT</span><button class="copy-btn" onclick="copyQ(this,`CREATE OR REPLACE TRIGGER trg30
+FOR INSERT OR UPDATE OR DELETE ON emp
+COMPOUND TRIGGER
+
+BEFORE STATEMENT IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Before statement\');
+END BEFORE STATEMENT;
+
+AFTER EACH ROW IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Row processed\');
+END AFTER EACH ROW;
+
+AFTER STATEMENT IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'After statement\');
+END AFTER STATEMENT;
+
+END trg30;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;`)">Copy</button></div><pre>CREATE OR REPLACE TRIGGER trg30
+FOR INSERT OR UPDATE OR DELETE ON emp
+COMPOUND TRIGGER
+
+BEFORE STATEMENT IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Before statement');
+END BEFORE STATEMENT;
+
+AFTER EACH ROW IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Row processed');
+END AFTER EACH ROW;
+
+AFTER STATEMENT IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('After statement');
+END AFTER STATEMENT;
+
+END trg30;
+/
+-- Test:
+UPDATE emp SET sal = sal + 100 WHERE deptno = 10;</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT / Result</div><div class="plsql-out"><div>Before statement</div><div>Row processed</div><div>Row processed</div><div>Row processed</div><div>After statement</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>

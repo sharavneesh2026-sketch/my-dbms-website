@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHERE / ORDER BY / Alias — SCOTT Schema</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}
+header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}
+.nav{display:flex;align-items:center;gap:1rem;height:64px;}
+.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+.back-btn:hover{background:#ede9fe;}
+.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}
+.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}
+.page-hero{padding:2rem 2rem 1rem;max-width:900px;margin:0 auto;}
+.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}
+.page-hero p{color:#9ca3af;font-size:0.85rem;}
+.search-wrap{max-width:900px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}
+.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;transition:border-color 0.2s;}
+.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}
+.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}
+.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:900px;margin:0 auto;}
+.queries{max-width:900px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}
+.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}
+.qcard:hover{border-color:#c4b5fd;}
+.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}
+.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}
+.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}
+.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}
+pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;}
+.kw{color:#7c3aed;font-weight:600;}
+.tbl{color:#db2777;}
+.output-section{padding:0.9rem 1.2rem 1.1rem;}
+.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}
+.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}
+table{width:100%;border-collapse:collapse;font-size:0.78rem;}
+thead tr{background:#f5f3ff;}
+th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}
+td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+tr:nth-child(even) td{background:#fdfcff;}
+.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}
+footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="index.html" class="back-btn">← Home</a>
+    <span class="nav-title"> WHERE / ORDER BY / Alias</span>
+    <span class="nav-badge">54 Queries</span>
+  </div>
+</header>
+<div class="page-hero">
+  <h2>WHERE / ORDER BY / Alias</h2>
+  <p>Filtering rows, sorting results, NULL handling, BETWEEN, IN, aliases on scott.emp</p>
+</div>
+<div class="search-wrap">
+  <span class="s-icon"></span>
+  <input class="search-box" id="searchBox" placeholder="Search queries..." oninput="filterQueries()">
+</div>
+<div class="result-count" id="resultCount">54 queries found</div>
+<div class="queries" id="queryList">
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q1</span><span class="qtitle">Display employees whose salary is greater than 3000</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE SAL > 3000;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> SAL &gt; 3000;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>EMPNO</th><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody><tr><td>7839</td><td>KING</td><td>PRESIDENT</td><td>5000</td><td>10</td></tr></tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q2</span><span class="qtitle">Display employees working in department 10</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO = 10;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO = 10;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>EMPNO</th><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>7782</td><td>CLARK</td><td>MANAGER</td><td>2450</td><td>10</td></tr>
+      <tr><td>7839</td><td>KING</td><td>PRESIDENT</td><td>5000</td><td>10</td></tr>
+      <tr><td>7934</td><td>MILLER</td><td>CLERK</td><td>1300</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q3</span><span class="qtitle">Display employees whose job is CLERK</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE JOB = 'CLERK';&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> JOB = <span style="color:#059669">'CLERK'</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>EMPNO</th><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>7369</td><td>SMITH</td><td>CLERK</td><td>800</td><td>20</td></tr>
+      <tr><td>7876</td><td>ADAMS</td><td>CLERK</td><td>1100</td><td>20</td></tr>
+      <tr><td>7900</td><td>JAMES</td><td>CLERK</td><td>950</td><td>30</td></tr>
+      <tr><td>7934</td><td>MILLER</td><td>CLERK</td><td>1300</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q4</span><span class="qtitle">Display employees hired after 01-JAN-81</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE HIREDATE > '01-JAN-1981';&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> HIREDATE &gt; <span style="color:#059669">'01-JAN-1981'</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>HIREDATE</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>20-FEB-81</td><td>30</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td><td>30</td></tr>
+      <tr><td>JONES</td><td>02-APR-81</td><td>20</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>01-MAY-81</td><td>30</td></tr>
+      <tr><td>CLARK</td><td>09-JUN-81</td><td>10</td></tr>
+      <tr><td>SCOTT</td><td>19-APR-87</td><td>20</td></tr>
+      <tr><td>KING</td><td>17-NOV-81</td><td>10</td></tr>
+      <tr><td>TURNER</td><td>08-SEP-81</td><td>30</td></tr>
+      <tr><td>ADAMS</td><td>23-MAY-87</td><td>20</td></tr>
+      <tr><td>JAMES</td><td>03-DEC-81</td><td>30</td></tr>
+      <tr><td>FORD</td><td>03-DEC-81</td><td>20</td></tr>
+      <tr><td>MILLER</td><td>23-JAN-82</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q5</span><span class="qtitle">Display employees whose salary is less than 1500</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE SAL < 1500;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> SAL &lt; 1500;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q6</span><span class="qtitle">Display employees whose salary is > 2000 and job is MANAGER</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE SAL > 2000 AND JOB = 'MANAGER';&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> SAL &gt; 2000 <span class="kw">AND</span> JOB = <span style="color:#059669">'MANAGER'</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q7</span><span class="qtitle">Display employees working in department 10 or 20</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO IN (10,20);')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO <span class="kw">IN</span> (10,20);</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td><td>20</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td><td>20</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td><td>10</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td><td>10</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td><td>20</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q8</span><span class="qtitle">Display employees whose job is SALESMAN and salary > 1500</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE JOB = 'SALESMAN' AND SAL > 1500;&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> JOB = <span style="color:#059669">'SALESMAN'</span> <span class="kw">AND</span> SAL &gt; 1500;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody><tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr></tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q9</span><span class="qtitle">Display employees who are either CLERK or ANALYST</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE JOB IN ('CLERK','ANALYST');&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> JOB <span class="kw">IN</span> (<span style="color:#059669">'CLERK'</span>,<span style="color:#059669">'ANALYST'</span>);</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q10</span><span class="qtitle">Display employees hired before 1982 and working in department 30</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE HIREDATE < '01-JAN-1982' AND DEPTNO = 30;&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> HIREDATE &lt; <span style="color:#059669">'01-JAN-1982'</span> <span class="kw">AND</span> DEPTNO = 30;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>HIREDATE</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>20-FEB-81</td><td>30</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td><td>30</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>01-MAY-81</td><td>30</td></tr>
+      <tr><td>TURNER</td><td>08-SEP-81</td><td>30</td></tr>
+      <tr><td>JAMES</td><td>03-DEC-81</td><td>30</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q11</span><span class="qtitle">Display employees whose job is not MANAGER or CLERK</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE JOB NOT IN ('MANAGER','CLERK');&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> JOB <span class="kw">NOT IN</span> (<span style="color:#059669">'MANAGER'</span>,<span style="color:#059669">'CLERK'</span>);</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q12</span><span class="qtitle">Display employees whose department is not 10</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO <> 10;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO &lt;&gt; 10;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td><td>20</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td><td>30</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td><td>30</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td><td>20</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td><td>30</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td><td>30</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td><td>20</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td><td>30</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q13</span><span class="qtitle">Display employees whose salary is between 1000 and 3000</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE SAL BETWEEN 1000 AND 3000;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> SAL <span class="kw">BETWEEN</span> 1000 <span class="kw">AND</span> 3000;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q14</span><span class="qtitle">Display employees hired between 01-JAN-81 and 31-DEC-81</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE HIREDATE BETWEEN '01-JAN-1981' AND '31-DEC-1981';&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> HIREDATE <span class="kw">BETWEEN</span> <span style="color:#059669">'01-JAN-1981'</span> <span class="kw">AND</span> <span style="color:#059669">'31-DEC-1981'</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>HIREDATE</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>20-FEB-81</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td><td>1250</td></tr>
+      <tr><td>JONES</td><td>02-APR-81</td><td>2975</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td><td>1250</td></tr>
+      <tr><td>BLAKE</td><td>01-MAY-81</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>09-JUN-81</td><td>2450</td></tr>
+      <tr><td>KING</td><td>17-NOV-81</td><td>5000</td></tr>
+      <tr><td>TURNER</td><td>08-SEP-81</td><td>1500</td></tr>
+      <tr><td>JAMES</td><td>03-DEC-81</td><td>950</td></tr>
+      <tr><td>FORD</td><td>03-DEC-81</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q15</span><span class="qtitle">Display all employees ordered by salary ascending</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY SAL ASC;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> SAL <span class="kw">ASC</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q16</span><span class="qtitle">Display all employees ordered by salary descending</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY SAL DESC;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> SAL <span class="kw">DESC</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q17</span><span class="qtitle">Display employees ordered by hire date</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY HIREDATE;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> HIREDATE;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>HIREDATE</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>17-DEC-80</td><td>800</td></tr>
+      <tr><td>ALLEN</td><td>20-FEB-81</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td><td>1250</td></tr>
+      <tr><td>JONES</td><td>02-APR-81</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>01-MAY-81</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>09-JUN-81</td><td>2450</td></tr>
+      <tr><td>TURNER</td><td>08-SEP-81</td><td>1500</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td><td>1250</td></tr>
+      <tr><td>KING</td><td>17-NOV-81</td><td>5000</td></tr>
+      <tr><td>JAMES</td><td>03-DEC-81</td><td>950</td></tr>
+      <tr><td>FORD</td><td>03-DEC-81</td><td>3000</td></tr>
+      <tr><td>MILLER</td><td>23-JAN-82</td><td>1300</td></tr>
+      <tr><td>SCOTT</td><td>19-APR-87</td><td>3000</td></tr>
+      <tr><td>ADAMS</td><td>23-MAY-87</td><td>1100</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q18</span><span class="qtitle">Display employees ordered by department number and salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY DEPTNO, SAL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> DEPTNO, SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>DEPTNO</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>MILLER</td><td>10</td><td>1300</td></tr>
+      <tr><td>CLARK</td><td>10</td><td>2450</td></tr>
+      <tr><td>KING</td><td>10</td><td>5000</td></tr>
+      <tr><td>SMITH</td><td>20</td><td>800</td></tr>
+      <tr><td>ADAMS</td><td>20</td><td>1100</td></tr>
+      <tr><td>JONES</td><td>20</td><td>2975</td></tr>
+      <tr><td>SCOTT</td><td>20</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>20</td><td>3000</td></tr>
+      <tr><td>JAMES</td><td>30</td><td>950</td></tr>
+      <tr><td>WARD</td><td>30</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>30</td><td>1250</td></tr>
+      <tr><td>TURNER</td><td>30</td><td>1500</td></tr>
+      <tr><td>ALLEN</td><td>30</td><td>1600</td></tr>
+      <tr><td>BLAKE</td><td>30</td><td>2850</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q19</span><span class="qtitle">Display employees ordered by job ascending and salary descending</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY JOB ASC, SAL DESC;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> JOB <span class="kw">ASC</span>, SAL <span class="kw">DESC</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q20</span><span class="qtitle">Display employee names ordered alphabetically</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME FROM SCOTT.EMP ORDER BY ENAME;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> ENAME;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th></tr></thead>
+    <tbody>
+      <tr><td>ADAMS</td></tr><tr><td>ALLEN</td></tr><tr><td>BLAKE</td></tr>
+      <tr><td>CLARK</td></tr><tr><td>FORD</td></tr><tr><td>JAMES</td></tr>
+      <tr><td>JONES</td></tr><tr><td>KING</td></tr><tr><td>MARTIN</td></tr>
+      <tr><td>MILLER</td></tr><tr><td>SCOTT</td></tr><tr><td>SMITH</td></tr>
+      <tr><td>TURNER</td></tr><tr><td>WARD</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q21</span><span class="qtitle">Display employees of department 30 ordered by salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO = 30 ORDER BY SAL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO = 30 <span class="kw">ORDER BY</span> SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>JAMES</td><td>950</td><td>30</td></tr>
+      <tr><td>WARD</td><td>1250</td><td>30</td></tr>
+      <tr><td>MARTIN</td><td>1250</td><td>30</td></tr>
+      <tr><td>TURNER</td><td>1500</td><td>30</td></tr>
+      <tr><td>ALLEN</td><td>1600</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>2850</td><td>30</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q22</span><span class="qtitle">Display employees ordered by annual salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, SAL*12 AS ANNUAL_SALARY FROM SCOTT.EMP ORDER BY ANNUAL_SALARY;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, SAL*12 <span class="kw">AS</span> ANNUAL_SALARY <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> ANNUAL_SALARY;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>ANNUAL_SALARY</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>9600</td></tr><tr><td>JAMES</td><td>11400</td></tr>
+      <tr><td>ADAMS</td><td>13200</td></tr><tr><td>WARD</td><td>15000</td></tr>
+      <tr><td>MARTIN</td><td>15000</td></tr><tr><td>MILLER</td><td>15600</td></tr>
+      <tr><td>TURNER</td><td>18000</td></tr><tr><td>ALLEN</td><td>19200</td></tr>
+      <tr><td>CLARK</td><td>29400</td></tr><tr><td>BLAKE</td><td>34200</td></tr>
+      <tr><td>JONES</td><td>35700</td></tr><tr><td>SCOTT</td><td>36000</td></tr>
+      <tr><td>FORD</td><td>36000</td></tr><tr><td>KING</td><td>60000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q23</span><span class="qtitle">Display employee name as Employee_Name</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Employee_Name FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Employee_Name <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Employee_Name</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td></tr><tr><td>ALLEN</td></tr><tr><td>WARD</td></tr>
+      <tr><td>JONES</td></tr><tr><td>MARTIN</td></tr><tr><td>BLAKE</td></tr>
+      <tr><td>CLARK</td></tr><tr><td>SCOTT</td></tr><tr><td>KING</td></tr>
+      <tr><td>TURNER</td></tr><tr><td>ADAMS</td></tr><tr><td>JAMES</td></tr>
+      <tr><td>FORD</td></tr><tr><td>MILLER</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q24</span><span class="qtitle">Display salary as Monthly_Salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT SAL AS Monthly_Salary FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> SAL <span class="kw">AS</span> Monthly_Salary <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Monthly_Salary</th></tr></thead>
+    <tbody>
+      <tr><td>800</td></tr><tr><td>1600</td></tr><tr><td>1250</td></tr>
+      <tr><td>2975</td></tr><tr><td>1250</td></tr><tr><td>2850</td></tr>
+      <tr><td>2450</td></tr><tr><td>3000</td></tr><tr><td>5000</td></tr>
+      <tr><td>1500</td></tr><tr><td>1100</td></tr><tr><td>950</td></tr>
+      <tr><td>3000</td></tr><tr><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q25</span><span class="qtitle">Display employee name and job with aliases</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Employee_Name, JOB AS Job_Title FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Employee_Name, JOB <span class="kw">AS</span> Job_Title <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Employee_Name</th><th>Job_Title</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td></tr><tr><td>ALLEN</td><td>SALESMAN</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td></tr><tr><td>JONES</td><td>MANAGER</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td></tr><tr><td>BLAKE</td><td>MANAGER</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td></tr><tr><td>SCOTT</td><td>ANALYST</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td></tr><tr><td>TURNER</td><td>SALESMAN</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td></tr><tr><td>JAMES</td><td>CLERK</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td></tr><tr><td>MILLER</td><td>CLERK</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q26</span><span class="qtitle">Display commission as Incentive</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, COMM AS Incentive FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, COMM <span class="kw">AS</span> Incentive <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>Incentive</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>NULL</td></tr><tr><td>ALLEN</td><td>300</td></tr>
+      <tr><td>WARD</td><td>500</td></tr><tr><td>JONES</td><td>NULL</td></tr>
+      <tr><td>MARTIN</td><td>1400</td></tr><tr><td>BLAKE</td><td>NULL</td></tr>
+      <tr><td>CLARK</td><td>NULL</td></tr><tr><td>SCOTT</td><td>NULL</td></tr>
+      <tr><td>KING</td><td>NULL</td></tr><tr><td>TURNER</td><td>0</td></tr>
+      <tr><td>ADAMS</td><td>NULL</td></tr><tr><td>JAMES</td><td>NULL</td></tr>
+      <tr><td>FORD</td><td>NULL</td></tr><tr><td>MILLER</td><td>NULL</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q27</span><span class="qtitle">Display hire date as Joining_Date</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, HIREDATE AS Joining_Date FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, HIREDATE <span class="kw">AS</span> Joining_Date <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>Joining_Date</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>17-DEC-80</td></tr><tr><td>ALLEN</td><td>20-FEB-81</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td></tr><tr><td>JONES</td><td>02-APR-81</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td></tr><tr><td>BLAKE</td><td>01-MAY-81</td></tr>
+      <tr><td>CLARK</td><td>09-JUN-81</td></tr><tr><td>SCOTT</td><td>19-APR-87</td></tr>
+      <tr><td>KING</td><td>17-NOV-81</td></tr><tr><td>TURNER</td><td>08-SEP-81</td></tr>
+      <tr><td>ADAMS</td><td>23-MAY-87</td></tr><tr><td>JAMES</td><td>03-DEC-81</td></tr>
+      <tr><td>FORD</td><td>03-DEC-81</td></tr><tr><td>MILLER</td><td>23-JAN-82</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q28</span><span class="qtitle">Display employees whose commission is NULL</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NULL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NULL</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>COMM</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td><td>NULL</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td><td>NULL</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td><td>NULL</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td><td>NULL</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td><td>NULL</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td><td>NULL</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td><td>NULL</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td><td>NULL</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td><td>NULL</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td><td>NULL</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q29</span><span class="qtitle">Display employees who are getting commission</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NOT NULL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NOT NULL</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>COMM</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td><td>300</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td><td>500</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td><td>1400</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td><td>0</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q30</span><span class="qtitle">Display employees who do not have a manager</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE MGR IS NULL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> MGR <span class="kw">IS NULL</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>EMPNO</th><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody><tr><td>7839</td><td>KING</td><td>PRESIDENT</td><td>5000</td></tr></tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q31</span><span class="qtitle">Display employees whose manager is not NULL</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE MGR IS NOT NULL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> MGR <span class="kw">IS NOT NULL</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>MGR</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>7902</td><td>800</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>7698</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>7698</td><td>1250</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>7839</td><td>2975</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>7698</td><td>1250</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>7839</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>7839</td><td>2450</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>7566</td><td>3000</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>7698</td><td>1500</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>7788</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>7698</td><td>950</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>7566</td><td>3000</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>7782</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q32</span><span class="qtitle">Display employees whose commission is NULL and salary > 2000</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NULL AND SAL > 2000;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NULL AND</span> SAL &gt; 2000;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q33</span><span class="qtitle">Display employees whose commission is NOT NULL and department is 30</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NOT NULL AND DEPTNO = 30;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NOT NULL AND</span> DEPTNO = 30;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>COMM</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>300</td><td>30</td></tr>
+      <tr><td>WARD</td><td>500</td><td>30</td></tr>
+      <tr><td>MARTIN</td><td>1400</td><td>30</td></tr>
+      <tr><td>TURNER</td><td>0</td><td>30</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q34</span><span class="qtitle">Display employees who do not earn commission and work in department 20</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NULL AND DEPTNO = 20;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NULL AND</span> DEPTNO = 20;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>800</td><td>20</td></tr>
+      <tr><td>JONES</td><td>2975</td><td>20</td></tr>
+      <tr><td>SCOTT</td><td>3000</td><td>20</td></tr>
+      <tr><td>ADAMS</td><td>1100</td><td>20</td></tr>
+      <tr><td>FORD</td><td>3000</td><td>20</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q35</span><span class="qtitle">Display employees whose manager is NULL and salary > 4000</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE MGR IS NULL AND SAL > 4000;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> MGR <span class="kw">IS NULL AND</span> SAL &gt; 4000;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>MGR</th></tr></thead>
+    <tbody><tr><td>KING</td><td>PRESIDENT</td><td>5000</td><td>NULL</td></tr></tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q36</span><span class="qtitle">Display employees of dept 30 with salary > 1500, ordered by salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO = 30 AND SAL > 1500 ORDER BY SAL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> DEPTNO = 30 <span class="kw">AND</span> SAL &gt; 1500 <span class="kw">ORDER BY</span> SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>ALLEN</td><td>1600</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>2850</td><td>30</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q37</span><span class="qtitle">Display employees with commission NOT NULL, ordered by commission</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NOT NULL ORDER BY COMM;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NOT NULL ORDER BY</span> COMM;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>SAL</th><th>COMM</th></tr></thead>
+    <tbody>
+      <tr><td>TURNER</td><td>1500</td><td>0</td></tr>
+      <tr><td>ALLEN</td><td>1600</td><td>300</td></tr>
+      <tr><td>WARD</td><td>1250</td><td>500</td></tr>
+      <tr><td>MARTIN</td><td>1250</td><td>1400</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q38</span><span class="qtitle">Display employees with salary between 1500 and 3000, ordered by salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE SAL BETWEEN 1500 AND 3000 ORDER BY SAL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> SAL <span class="kw">BETWEEN</span> 1500 <span class="kw">AND</span> 3000 <span class="kw">ORDER BY</span> SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q39</span><span class="qtitle">Display employee name and department, ordered by dept and name</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, DEPTNO FROM SCOTT.EMP ORDER BY DEPTNO, ENAME;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, DEPTNO <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> DEPTNO, ENAME;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>CLARK</td><td>10</td></tr><tr><td>KING</td><td>10</td></tr><tr><td>MILLER</td><td>10</td></tr>
+      <tr><td>ADAMS</td><td>20</td></tr><tr><td>FORD</td><td>20</td></tr><tr><td>JONES</td><td>20</td></tr>
+      <tr><td>SCOTT</td><td>20</td></tr><tr><td>SMITH</td><td>20</td></tr>
+      <tr><td>ALLEN</td><td>30</td></tr><tr><td>BLAKE</td><td>30</td></tr><tr><td>JAMES</td><td>30</td></tr>
+      <tr><td>MARTIN</td><td>30</td></tr><tr><td>TURNER</td><td>30</td></tr><tr><td>WARD</td><td>30</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q40</span><span class="qtitle">Display employees whose name starts with S, ordered by salary</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE ENAME LIKE 'S%' ORDER BY SAL;&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> ENAME <span class="kw">LIKE</span> <span style="color:#059669">'S%'</span> <span class="kw">ORDER BY</span> SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q41</span><span class="qtitle">Display employee name as Name and salary as Pay for department 10</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Name, SAL AS Pay FROM SCOTT.EMP WHERE DEPTNO = 10;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Name, SAL <span class="kw">AS</span> Pay
+<span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO = 10;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Name</th><th>Pay</th></tr></thead>
+    <tbody>
+      <tr><td>CLARK</td><td>2450</td></tr>
+      <tr><td>KING</td><td>5000</td></tr>
+      <tr><td>MILLER</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q42</span><span class="qtitle">Display employees whose commission is NULL, ordered by salary descending</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NULL ORDER BY SAL DESC;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> COMM <span class="kw">IS NULL ORDER BY</span> SAL <span class="kw">DESC</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q43</span><span class="qtitle">Display employee name and annual salary, ordered by annual salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, SAL*12 AS Annual_Salary FROM SCOTT.EMP ORDER BY Annual_Salary;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, SAL*12 <span class="kw">AS</span> Annual_Salary
+<span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> Annual_Salary;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>Annual_Salary</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>9600</td></tr><tr><td>JAMES</td><td>11400</td></tr>
+      <tr><td>ADAMS</td><td>13200</td></tr><tr><td>WARD</td><td>15000</td></tr>
+      <tr><td>MARTIN</td><td>15000</td></tr><tr><td>MILLER</td><td>15600</td></tr>
+      <tr><td>TURNER</td><td>18000</td></tr><tr><td>ALLEN</td><td>19200</td></tr>
+      <tr><td>CLARK</td><td>29400</td></tr><tr><td>BLAKE</td><td>34200</td></tr>
+      <tr><td>JONES</td><td>35700</td></tr><tr><td>SCOTT</td><td>36000</td></tr>
+      <tr><td>FORD</td><td>36000</td></tr><tr><td>KING</td><td>60000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q44</span><span class="qtitle">Display employees whose commission is NULL but job is SALESMAN</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT * FROM SCOTT.EMP WHERE COMM IS NULL AND JOB = 'SALESMAN';&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> COMM <span class="kw">IS NULL AND</span> JOB = <span style="color:#059669">'SALESMAN'</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>COMM</th></tr></thead>
+    <tbody><tr><td colspan="3" style="text-align:center;color:#9ca3af;font-style:italic;">No rows returned — all SALESMANs have COMM (even TURNER has 0)</td></tr></tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q45</span><span class="qtitle">Display employees hired before 1982 with aliases, ordered by hire date</span><button class="copy-btn" onclick="copyQ(this,&quot;SELECT ENAME AS Name, HIREDATE AS Hired FROM SCOTT.EMP WHERE HIREDATE < '01-JAN-1982' ORDER BY Hired;&quot;)">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Name, HIREDATE <span class="kw">AS</span> Hired
+<span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> HIREDATE &lt; <span style="color:#059669">'01-JAN-1982'</span> <span class="kw">ORDER BY</span> Hired;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Name</th><th>Hired</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>17-DEC-80</td></tr>
+      <tr><td>ALLEN</td><td>20-FEB-81</td></tr>
+      <tr><td>WARD</td><td>22-FEB-81</td></tr>
+      <tr><td>JONES</td><td>02-APR-81</td></tr>
+      <tr><td>BLAKE</td><td>01-MAY-81</td></tr>
+      <tr><td>CLARK</td><td>09-JUN-81</td></tr>
+      <tr><td>TURNER</td><td>08-SEP-81</td></tr>
+      <tr><td>MARTIN</td><td>28-SEP-81</td></tr>
+      <tr><td>KING</td><td>17-NOV-81</td></tr>
+      <tr><td>JAMES</td><td>03-DEC-81</td></tr>
+      <tr><td>FORD</td><td>03-DEC-81</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q46</span><span class="qtitle">Display job and salary using aliases</span><button class="copy-btn" onclick="copyQ(this,'SELECT JOB AS Job_Title, SAL AS Salary FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> JOB <span class="kw">AS</span> Job_Title, SAL <span class="kw">AS</span> Salary <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Job_Title</th><th>Salary</th></tr></thead>
+    <tbody>
+      <tr><td>CLERK</td><td>800</td></tr><tr><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>SALESMAN</td><td>1250</td></tr><tr><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>SALESMAN</td><td>1250</td></tr><tr><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>MANAGER</td><td>2450</td></tr><tr><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>PRESIDENT</td><td>5000</td></tr><tr><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>CLERK</td><td>1100</td></tr><tr><td>CLERK</td><td>950</td></tr>
+      <tr><td>ANALYST</td><td>3000</td></tr><tr><td>CLERK</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q47</span><span class="qtitle">Display employee name and department number with aliases</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Employee_Name, DEPTNO AS Dept_No FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Employee_Name, DEPTNO <span class="kw">AS</span> Dept_No <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Employee_Name</th><th>Dept_No</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>20</td></tr><tr><td>ALLEN</td><td>30</td></tr>
+      <tr><td>WARD</td><td>30</td></tr><tr><td>JONES</td><td>20</td></tr>
+      <tr><td>MARTIN</td><td>30</td></tr><tr><td>BLAKE</td><td>30</td></tr>
+      <tr><td>CLARK</td><td>10</td></tr><tr><td>SCOTT</td><td>20</td></tr>
+      <tr><td>KING</td><td>10</td></tr><tr><td>TURNER</td><td>30</td></tr>
+      <tr><td>ADAMS</td><td>20</td></tr><tr><td>JAMES</td><td>30</td></tr>
+      <tr><td>FORD</td><td>20</td></tr><tr><td>MILLER</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q48</span><span class="qtitle">Display employees whose commission is NULL or salary > 3000</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE COMM IS NULL OR SAL > 3000;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> COMM <span class="kw">IS NULL OR</span> SAL &gt; 3000;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>COMM</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td><td>NULL</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td><td>NULL</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td><td>NULL</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td><td>NULL</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td><td>NULL</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td><td>NULL</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td><td>NULL</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td><td>NULL</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td><td>NULL</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td><td>NULL</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q49</span><span class="qtitle">Display employee name, job, and salary with aliases, ordered by job</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Name, JOB AS Job, SAL AS Salary FROM SCOTT.EMP ORDER BY JOB;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Name, JOB <span class="kw">AS</span> Job, SAL <span class="kw">AS</span> Salary
+<span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> JOB;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Name</th><th>Job</th><th>Salary</th></tr></thead>
+    <tbody>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q50</span><span class="qtitle">Display employees working in departments 10, 20, or 30</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE DEPTNO IN (10,20,30);')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">WHERE</span> DEPTNO <span class="kw">IN</span> (10,20,30);</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th><th>DEPTNO</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td><td>20</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td><td>30</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td><td>30</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td><td>20</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td><td>30</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td><td>30</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td><td>10</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td><td>10</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td><td>30</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td><td>20</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td><td>30</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td><td>20</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q51</span><span class="qtitle">Display employees ordered by job and name</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP ORDER BY JOB, ENAME;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span> <span class="kw">ORDER BY</span> JOB, ENAME;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>ADAMS</td><td>CLERK</td><td>1100</td></tr>
+      <tr><td>JAMES</td><td>CLERK</td><td>950</td></tr>
+      <tr><td>MILLER</td><td>CLERK</td><td>1300</td></tr>
+      <tr><td>SMITH</td><td>CLERK</td><td>800</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>KING</td><td>PRESIDENT</td><td>5000</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>MARTIN</td><td>SALESMAN</td><td>1250</td></tr>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>WARD</td><td>SALESMAN</td><td>1250</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q52</span><span class="qtitle">Display employee name and salary with meaningful aliases</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME AS Employee_Name, SAL AS Salary FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME <span class="kw">AS</span> Employee_Name, SAL <span class="kw">AS</span> Salary <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>Employee_Name</th><th>Salary</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>800</td></tr><tr><td>ALLEN</td><td>1600</td></tr>
+      <tr><td>WARD</td><td>1250</td></tr><tr><td>JONES</td><td>2975</td></tr>
+      <tr><td>MARTIN</td><td>1250</td></tr><tr><td>BLAKE</td><td>2850</td></tr>
+      <tr><td>CLARK</td><td>2450</td></tr><tr><td>SCOTT</td><td>3000</td></tr>
+      <tr><td>KING</td><td>5000</td></tr><tr><td>TURNER</td><td>1500</td></tr>
+      <tr><td>ADAMS</td><td>1100</td></tr><tr><td>JAMES</td><td>950</td></tr>
+      <tr><td>FORD</td><td>3000</td></tr><tr><td>MILLER</td><td>1300</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q53</span><span class="qtitle">Display department number as Dept_No</span><button class="copy-btn" onclick="copyQ(this,'SELECT ENAME, DEPTNO AS Dept_No FROM SCOTT.EMP;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> ENAME, DEPTNO <span class="kw">AS</span> Dept_No <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>Dept_No</th></tr></thead>
+    <tbody>
+      <tr><td>SMITH</td><td>20</td></tr><tr><td>ALLEN</td><td>30</td></tr>
+      <tr><td>WARD</td><td>30</td></tr><tr><td>JONES</td><td>20</td></tr>
+      <tr><td>MARTIN</td><td>30</td></tr><tr><td>BLAKE</td><td>30</td></tr>
+      <tr><td>CLARK</td><td>10</td></tr><tr><td>SCOTT</td><td>20</td></tr>
+      <tr><td>KING</td><td>10</td></tr><tr><td>TURNER</td><td>30</td></tr>
+      <tr><td>ADAMS</td><td>20</td></tr><tr><td>JAMES</td><td>30</td></tr>
+      <tr><td>FORD</td><td>20</td></tr><tr><td>MILLER</td><td>10</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="qcard">
+  <div class="qcard-head"><span class="qnum">Q54</span><span class="qtitle">Display employees whose salary is between 1500 and 3000 ordered by salary</span><button class="copy-btn" onclick="copyQ(this,'SELECT * FROM SCOTT.EMP WHERE SAL BETWEEN 1500 AND 3000 ORDER BY SAL;')">Copy</button></div>
+  <pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="tbl">SCOTT.EMP</span>
+<span class="kw">WHERE</span> SAL <span class="kw">BETWEEN</span> 1500 <span class="kw">AND</span> 3000 <span class="kw">ORDER BY</span> SAL;</pre>
+  <div class="output-section"><div class="output-label">📊 Output</div><div class="out-wrap"><table>
+    <thead><tr><th>ENAME</th><th>JOB</th><th>SAL</th></tr></thead>
+    <tbody>
+      <tr><td>TURNER</td><td>SALESMAN</td><td>1500</td></tr>
+      <tr><td>ALLEN</td><td>SALESMAN</td><td>1600</td></tr>
+      <tr><td>CLARK</td><td>MANAGER</td><td>2450</td></tr>
+      <tr><td>BLAKE</td><td>MANAGER</td><td>2850</td></tr>
+      <tr><td>JONES</td><td>MANAGER</td><td>2975</td></tr>
+      <tr><td>SCOTT</td><td>ANALYST</td><td>3000</td></tr>
+      <tr><td>FORD</td><td>ANALYST</td><td>3000</td></tr>
+    </tbody>
+  </table></div></div>
+</div>
+
+<div class="no-results" id="noResults">No queries match your search.</div>
+</div>
+<footer>SCOTT Schema Reference · scott.emp & scott.dept · Oracle SQL & PL/SQL</footer>
+<script>
+function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}
+function filterQueries(){
+  const val=document.getElementById('searchBox').value.toLowerCase();
+  const cards=document.querySelectorAll('.qcard');
+  let v=0;
+  cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});
+  document.getElementById('resultCount').textContent=v+' queries found';
+  document.getElementById('noResults').style.display=v===0?'block':'none';
+}
+</script>
+</body>
+</html>

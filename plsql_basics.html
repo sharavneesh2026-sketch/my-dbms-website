@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>PL/SQL Basics — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"> PL/SQL Basics</span><span class="nav-badge">22 programs</span></div></header><div class="page-hero"><h2>PL/SQL Basics</h2><p>Output variables constants %TYPE %ROWTYPE in Oracle PL/SQL</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">22 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">Print name and city</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Avneesh\');
+    DBMS_OUTPUT.PUT_LINE(\'Haryana\');
+END;
+/`)">Copy</button></div><pre>BEGIN
+    DBMS_OUTPUT.PUT_LINE('Avneesh');
+    DBMS_OUTPUT.PUT_LINE('Haryana');
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Avneesh</div><div>Haryana</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">Print numbers 1 to 5</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">Current system date</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    DBMS_OUTPUT.PUT_LINE(SYSDATE);
+END;
+/`)">Copy</button></div><pre>BEGIN
+    DBMS_OUTPUT.PUT_LINE(SYSDATE);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>07-APR-26</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">Employee name and salary using variables</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_name VARCHAR2(20) := \'SMITH\';
+    v_sal NUMBER := 3000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name || \' \' || v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_name VARCHAR2(20) := 'SMITH';
+    v_sal NUMBER := 3000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name || ' ' || v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH 3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">Age variable</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_age NUMBER := 21;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Age: \' || v_age);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_age NUMBER := 21;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Age: ' || v_age);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Age: 21</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">Sum of two variables</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Sum: \' || (a+b));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Sum: ' || (a+b));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Sum: 30</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">Store employee data</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_name VARCHAR2(20) := \'ALLEN\';
+    v_sal NUMBER := 2000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name || \' earns \' || v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_name VARCHAR2(20) := 'ALLEN';
+    v_sal NUMBER := 2000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_name || ' earns ' || v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>ALLEN earns 2000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">Swap two numbers</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+    temp NUMBER;
+BEGIN
+    temp := a;
+    a := b;
+    b := temp;
+    DBMS_OUTPUT.PUT_LINE(\'a=\'||a||\' b=\'||b);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+    temp NUMBER;
+BEGIN
+    temp := a;
+    a := b;
+    b := temp;
+    DBMS_OUTPUT.PUT_LINE('a='||a||' b='||b);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>a=20 b=10</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">Area of rectangle</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    l NUMBER := 10;
+    w NUMBER := 5;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Area=\' || (l*w));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    l NUMBER := 10;
+    w NUMBER := 5;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Area=' || (l*w));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Area=50</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">Area of circle using constant</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    pi CONSTANT NUMBER := 3.14;
+    r NUMBER := 5;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'Area=\' || (pi*r*r));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    pi CONSTANT NUMBER := 3.14;
+    r NUMBER := 5;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Area=' || (pi*r*r));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Area=78.5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">Salary after tax</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    tax CONSTANT NUMBER := 0.10;
+    sal NUMBER := 5000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'After Tax=\' || (sal - sal*tax));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    tax CONSTANT NUMBER := 0.10;
+    sal NUMBER := 5000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('After Tax=' || (sal - sal*tax));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>After Tax=4500</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">Constant cannot be changed</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    c CONSTANT NUMBER := 10;
+BEGIN
+    -- c := 20; -- ERROR if uncommented
+    DBMS_OUTPUT.PUT_LINE(c);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    c CONSTANT NUMBER := 10;
+BEGIN
+    -- c := 20; -- ERROR if uncommented
+    DBMS_OUTPUT.PUT_LINE(c);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>10</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">Simple interest</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    p NUMBER := 1000;
+    r CONSTANT NUMBER := 5;
+    t NUMBER := 2;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(\'SI=\' || (p*r*t/100));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    p NUMBER := 1000;
+    r CONSTANT NUMBER := 5;
+    t NUMBER := 2;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('SI=' || (p*r*t/100));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SI=100</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">Datatypes example</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_num NUMBER := 100;
+    v_name VARCHAR2(20) := \'ABC\';
+    v_date DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_num || \' \' || v_name || \' \' || v_date);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_num NUMBER := 100;
+    v_name VARCHAR2(20) := 'ABC';
+    v_date DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_num || ' ' || v_name || ' ' || v_date);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>100 ABC 07-APR-26</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">%TYPE variable</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    v_sal := 3000;
+    DBMS_OUTPUT.PUT_LINE(v_sal);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_sal SCOTT.EMP.SAL%TYPE;
+BEGIN
+    v_sal := 3000;
+    DBMS_OUTPUT.PUT_LINE(v_sal);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>3000</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">%ROWTYPE variable</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    emp_rec SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO emp_rec FROM SCOTT.EMP WHERE ROWNUM=1;
+    DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || \' \' || emp_rec.SAL);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    emp_rec SCOTT.EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO emp_rec FROM SCOTT.EMP WHERE ROWNUM=1;
+    DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' ' || emp_rec.SAL);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH 800</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">Store date variable</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    v_date DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_date);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    v_date DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(v_date);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>07-APR-26</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P18</span><span class="qtitle">Number to string</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    num NUMBER := 100;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(TO_CHAR(num));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    num NUMBER := 100;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(TO_CHAR(num));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>100</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P19</span><span class="qtitle">Variables + constant PI</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    pi CONSTANT NUMBER := 3.14;
+    r NUMBER := 4;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(pi*r*r);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    pi CONSTANT NUMBER := 3.14;
+    r NUMBER := 4;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(pi*r*r);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>50.24</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P20</span><span class="qtitle">%ROWTYPE + constant + bonus</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    emp_rec SCOTT.EMP%ROWTYPE;
+    bonus CONSTANT NUMBER := 0.10;
+BEGIN
+    SELECT * INTO emp_rec FROM SCOTT.EMP WHERE ROWNUM=1;
+    DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || \' Bonus=\' || emp_rec.SAL*bonus);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    emp_rec SCOTT.EMP%ROWTYPE;
+    bonus CONSTANT NUMBER := 0.10;
+BEGIN
+    SELECT * INTO emp_rec FROM SCOTT.EMP WHERE ROWNUM=1;
+    DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' Bonus=' || emp_rec.SAL*bonus);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>SMITH Bonus=80</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P21</span><span class="qtitle">Bonus calculation</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    sal NUMBER := 5000;
+    bonus NUMBER;
+BEGIN
+    bonus := sal * 0.10;
+    DBMS_OUTPUT.PUT_LINE(\'Bonus=\' || bonus);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    sal NUMBER := 5000;
+    bonus NUMBER;
+BEGIN
+    bonus := sal * 0.10;
+    DBMS_OUTPUT.PUT_LINE('Bonus=' || bonus);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Bonus=500</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P22</span><span class="qtitle">Full concept — name, salary, tax</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    name VARCHAR2(20) := \'RAJ\';
+    sal NUMBER := 4000;
+    tax CONSTANT NUMBER := 0.10;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(name || \' Net=\' || (sal - sal*tax));
+END;
+/`)">Copy</button></div><pre>DECLARE
+    name VARCHAR2(20) := 'RAJ';
+    sal NUMBER := 4000;
+    tax CONSTANT NUMBER := 0.10;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(name || ' Net=' || (sal - sal*tax));
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>RAJ Net=3600</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>

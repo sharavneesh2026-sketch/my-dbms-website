@@ -1,0 +1,581 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Iterative Control — SCOTT Schema</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f8f7ff;color:#1e1b4b;}header{background:#fff;border-bottom:2px solid #ede9fe;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #ede9fe88;}.nav{display:flex;align-items:center;gap:1rem;height:64px;}.back-btn{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:none;transition:all 0.2s;}.back-btn:hover{background:#ede9fe;}.nav-title{font-size:1rem;font-weight:800;color:#1e1b4b;}.nav-badge{margin-left:auto;background:#ede9fe;border-radius:20px;padding:5px 14px;font-size:0.75rem;color:#6d28d9;font-weight:700;}.page-hero{padding:2rem 2rem 1rem;max-width:960px;margin:0 auto;}.page-hero h2{font-size:1.8rem;font-weight:800;color:#1e1b4b;margin-bottom:0.3rem;}.page-hero p{color:#9ca3af;font-size:0.85rem;}.search-wrap{max-width:960px;margin:0 auto;padding:0.8rem 2rem 0.5rem;position:relative;}.search-box{width:100%;padding:0.75rem 1.2rem 0.75rem 3rem;border:1.5px solid #ddd6fe;border-radius:40px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:#1e1b4b;outline:none;}.search-box:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #f3f0ff;}.s-icon{position:absolute;left:3rem;top:50%;transform:translateY(-50%);font-size:1rem;}.result-count{font-size:0.75rem;color:#9ca3af;font-family:'JetBrains Mono',monospace;padding:0 2rem 1rem;max-width:960px;margin:0 auto;}.queries{max-width:960px;margin:0 auto;padding:0 2rem 4rem;display:flex;flex-direction:column;gap:1.2rem;}.qcard{background:#fff;border:1.5px solid #ede9fe;border-radius:16px;overflow:hidden;transition:border-color 0.2s;}.qcard:hover{border-color:#c4b5fd;}.qcard-head{padding:0.85rem 1.2rem;background:#faf8ff;border-bottom:1px solid #ede9fe;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}.qnum{font-size:0.7rem;font-weight:700;color:#7c3aed;font-family:'JetBrains Mono',monospace;background:#ede9fe;padding:3px 9px;border-radius:5px;}.qtitle{font-size:0.85rem;font-weight:600;color:#1e1b4b;flex:1;}.copy-btn{padding:4px 14px;border-radius:6px;border:1.5px solid #ddd6fe;background:#fff;color:#7c3aed;font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:auto;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;}.copy-btn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed;}.copy-btn.copied{background:#10b981;color:#fff;border-color:#10b981;}pre{padding:1rem 1.2rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.75;background:#fdfcff;border-bottom:1px solid #ede9fe;color:#374151;white-space:pre-wrap;word-break:break-word;}.output-section{padding:0.9rem 1.2rem 1.1rem;}.output-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a78bfa;margin-bottom:0.6rem;}.out-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;}table{width:100%;border-collapse:collapse;font-size:0.78rem;}thead tr{background:#f5f3ff;}th{padding:8px 12px;text-align:left;font-weight:700;color:#4c1d95;border-bottom:1.5px solid #ddd6fe;white-space:nowrap;}td{padding:6px 12px;color:#374151;border-bottom:1px solid #f3f4f6;white-space:nowrap;}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#fdfcff;}.no-results{text-align:center;padding:3rem 1rem;color:#9ca3af;display:none;font-size:0.9rem;}.ok-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#166534;margin-bottom:4px;}.err-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#991b1b;margin-bottom:4px;}.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#1e40af;margin-bottom:4px;}.plsql-out{background:#1e1b4b;border-radius:8px;padding:0.9rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#e9d5ff;line-height:1.8;}footer{text-align:center;padding:2rem;color:#9ca3af;font-size:0.8rem;border-top:1px solid #ede9fe;background:#fff;}</style></head><body><header><div class="nav"><a href="index.html" class="back-btn">← Home</a><span class="nav-title"> Iterative Control</span><span class="nav-badge">32 programs</span></div></header><div class="page-hero"><h2>Iterative Control</h2><p>Simple LOOP WHILE FOR loop nested loops table operations</p></div><div class="search-wrap"><span class="s-icon"></span><input class="search-box" id="searchBox" placeholder="Search programs..." oninput="filterQueries()"></div><div class="result-count" id="resultCount">32 programs found</div><div class="queries" id="queryList"><div class="qcard"><div class="qcard-head"><span class="qnum">P1</span><span class="qtitle">Simple LOOP — 1 to 5</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+        EXIT WHEN i > 5;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+        EXIT WHEN i &gt; 5;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P2</span><span class="qtitle">Simple LOOP — reverse 10 to 1</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 10;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i - 1;
+        EXIT WHEN i < 1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 10;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i - 1;
+        EXIT WHEN i &lt; 1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>10</div><div>9</div><div>8</div><div>7</div><div>6</div><div>5</div><div>4</div><div>3</div><div>2</div><div>1</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P3</span><span class="qtitle">Sum 1 to 10 using LOOP</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 1;
+    s NUMBER := 0;
+BEGIN
+    LOOP
+        s := s + i;
+        i := i + 1;
+        EXIT WHEN i > 10;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Sum=\' || s);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 1;
+    s NUMBER := 0;
+BEGIN
+    LOOP
+        s := s + i;
+        i := i + 1;
+        EXIT WHEN i &gt; 10;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Sum=' || s);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Sum=55</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P4</span><span class="qtitle">Multiplication table of 5</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 5;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(n||\' x \'||i||\' = \'||(n*i));
+        i := i + 1;
+        EXIT WHEN i > 10;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 5;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(n||' x '||i||' = '||(n*i));
+        i := i + 1;
+        EXIT WHEN i &gt; 10;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>5 x 1 = 5</div><div>5 x 2 = 10</div><div>5 x 3 = 15</div><div>5 x 4 = 20</div><div>5 x 5 = 25</div><div>5 x 6 = 30</div><div>5 x 7 = 35</div><div>5 x 8 = 40</div><div>5 x 9 = 45</div><div>5 x 10 = 50</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P5</span><span class="qtitle">Even numbers 1 to 20</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        IF MOD(i,2)=0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+        i := i + 1;
+        EXIT WHEN i > 20;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        IF MOD(i,2)=0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+        i := i + 1;
+        EXIT WHEN i &gt; 20;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>2</div><div>4</div><div>6</div><div>8</div><div>10</div><div>12</div><div>14</div><div>16</div><div>18</div><div>20</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P6</span><span class="qtitle">Exit when > 50</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 10;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 10;
+        EXIT WHEN i > 50;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 10;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 10;
+        EXIT WHEN i &gt; 50;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>10</div><div>20</div><div>30</div><div>40</div><div>50</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P7</span><span class="qtitle">WHILE LOOP — 1 to 10</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 1;
+BEGIN
+    WHILE i <= 10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 1;
+BEGIN
+    WHILE i &lt;= 10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P8</span><span class="qtitle">Factorial using WHILE</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 5;
+    f NUMBER := 1;
+BEGIN
+    WHILE n > 0 LOOP
+        f := f * n;
+        n := n - 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Fact=\' || f);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 5;
+    f NUMBER := 1;
+BEGIN
+    WHILE n &gt; 0 LOOP
+        f := f * n;
+        n := n - 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Fact=' || f);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Fact=120</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P9</span><span class="qtitle">Sum of digits</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 123;
+    s NUMBER := 0;
+BEGIN
+    WHILE n > 0 LOOP
+        s := s + MOD(n,10);
+        n := TRUNC(n/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 123;
+    s NUMBER := 0;
+BEGIN
+    WHILE n &gt; 0 LOOP
+        s := s + MOD(n,10);
+        n := TRUNC(n/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>6</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P10</span><span class="qtitle">Reverse a number</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 123;
+    rev NUMBER := 0;
+BEGIN
+    WHILE n > 0 LOOP
+        rev := rev*10 + MOD(n,10);
+        n := TRUNC(n/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(rev);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 123;
+    rev NUMBER := 0;
+BEGIN
+    WHILE n &gt; 0 LOOP
+        rev := rev*10 + MOD(n,10);
+        n := TRUNC(n/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(rev);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>321</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P11</span><span class="qtitle">Palindrome check</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 121;
+    temp NUMBER := n;
+    rev NUMBER := 0;
+BEGIN
+    WHILE temp > 0 LOOP
+        rev := rev*10 + MOD(temp,10);
+        temp := TRUNC(temp/10);
+    END LOOP;
+    IF n = rev THEN
+        DBMS_OUTPUT.PUT_LINE(\'Palindrome\');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(\'Not Palindrome\');
+    END IF;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 121;
+    temp NUMBER := n;
+    rev NUMBER := 0;
+BEGIN
+    WHILE temp &gt; 0 LOOP
+        rev := rev*10 + MOD(temp,10);
+        temp := TRUNC(temp/10);
+    END LOOP;
+    IF n = rev THEN
+        DBMS_OUTPUT.PUT_LINE('Palindrome');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Not Palindrome');
+    END IF;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Palindrome</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P12</span><span class="qtitle">Fibonacci series (10 terms)</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    n NUMBER := 10;
+    a NUMBER := 0;
+    b NUMBER := 1;
+    c NUMBER;
+    i NUMBER := 1;
+BEGIN
+    WHILE i <= n LOOP
+        DBMS_OUTPUT.PUT_LINE(a);
+        c := a + b;
+        a := b;
+        b := c;
+        i := i + 1;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    n NUMBER := 10;
+    a NUMBER := 0;
+    b NUMBER := 1;
+    c NUMBER;
+    i NUMBER := 1;
+BEGIN
+    WHILE i &lt;= n LOOP
+        DBMS_OUTPUT.PUT_LINE(a);
+        c := a + b;
+        a := b;
+        b := c;
+        i := i + 1;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>0</div><div>1</div><div>1</div><div>2</div><div>3</div><div>5</div><div>8</div><div>13</div><div>21</div><div>34</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P13</span><span class="qtitle">FOR LOOP — 1 to 10</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P14</span><span class="qtitle">FOR LOOP — Reverse</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>10</div><div>9</div><div>8</div><div>7</div><div>6</div><div>5</div><div>4</div><div>3</div><div>2</div><div>1</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P15</span><span class="qtitle">Sum 1 to 10 using FOR</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    s NUMBER := 0;
+BEGIN
+    FOR i IN 1..10 LOOP
+        s := s + i;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    s NUMBER := 0;
+BEGIN
+    FOR i IN 1..10 LOOP
+        s := s + i;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>55</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P16</span><span class="qtitle">Table of 5 using FOR</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(\'5 x \'||i||\'=\'||(5*i));
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE('5 x '||i||'='||(5*i));
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>5 x 1=5</div><div>5 x 2=10</div><div>5 x 3=15</div><div>5 x 4=20</div><div>5 x 5=25</div><div>5 x 6=30</div><div>5 x 7=35</div><div>5 x 8=40</div><div>5 x 9=45</div><div>5 x 10=50</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P17</span><span class="qtitle">Squares of 1 to 10</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i*i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i*i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>4</div><div>9</div><div>16</div><div>25</div><div>36</div><div>49</div><div>64</div><div>81</div><div>100</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P18</span><span class="qtitle">Odd numbers 1 to 50</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..50 LOOP
+        IF MOD(i,2)<>0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..50 LOOP
+        IF MOD(i,2)&lt;&gt;0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>3</div><div>5</div><div>7</div><div>9</div><div>11</div><div>...</div><div>49</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P19</span><span class="qtitle">Star pattern (nested loops)</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT(\'*\');
+        END LOOP;
+        DBMS_OUTPUT.NEW_LINE;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT('*');
+        END LOOP;
+        DBMS_OUTPUT.NEW_LINE;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>*</div><div>**</div><div>***</div><div>****</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P20</span><span class="qtitle">Tables 1 to 5 (nested loops)</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..5 LOOP
+        FOR j IN 1..10 LOOP
+            DBMS_OUTPUT.PUT_LINE(i||\'x\'||j||\'=\'||(i*j));
+        END LOOP;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..5 LOOP
+        FOR j IN 1..10 LOOP
+            DBMS_OUTPUT.PUT_LINE(i||'x'||j||'='||(i*j));
+        END LOOP;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1x1=1</div><div>1x2=2</div><div>...</div><div>5x10=50</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P21</span><span class="qtitle">Number pattern (nested loops)</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT(j);
+        END LOOP;
+        DBMS_OUTPUT.NEW_LINE;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT(j);
+        END LOOP;
+        DBMS_OUTPUT.NEW_LINE;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>12</div><div>123</div><div>1234</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P22</span><span class="qtitle">Skip multiples of 4</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,4)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,4)=0 THEN CONTINUE; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>5</div><div>6</div><div>7</div><div>9</div><div>10</div><div>11</div><div>13</div><div>14</div><div>15</div><div>17</div><div>18</div><div>19</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P23</span><span class="qtitle">Stop when sum > 100</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    s NUMBER := 0;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        s := s + i;
+        EXIT WHEN s > 100;
+        i := i + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    s NUMBER := 0;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        s := s + i;
+        EXIT WHEN s &gt; 100;
+        i := i + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(s);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>105</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P24</span><span class="qtitle">Exit when divisible by 7</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR i IN 1..50 LOOP
+        IF MOD(i,7)=0 THEN EXIT; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR i IN 1..50 LOOP
+        IF MOD(i,7)=0 THEN EXIT; END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P25</span><span class="qtitle">Loop through EMP IDs</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+BEGIN
+    FOR rec IN (SELECT EMPNO FROM SCOTT.EMP) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.EMPNO);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+BEGIN
+    FOR rec IN (SELECT EMPNO FROM SCOTT.EMP) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.EMPNO);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>7369</div><div>7499</div><div>7521</div><div>7566</div><div>7654</div><div>7698</div><div>7782</div><div>7788</div><div>7839</div><div>7844</div><div>7876</div><div>7900</div><div>7902</div><div>7934</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P26</span><span class="qtitle">Increase salary by 10%</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT EMPNO,SAL FROM SCOTT.EMP) LOOP
+        UPDATE SCOTT.EMP SET SAL=SAL*1.10
+        WHERE EMPNO=rec.EMPNO;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT EMPNO,SAL FROM SCOTT.EMP) LOOP
+        UPDATE SCOTT.EMP SET SAL=SAL*1.10
+        WHERE EMPNO=rec.EMPNO;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>14 rows updated (10% salary increase)</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P27</span><span class="qtitle">Display salary > 3000</span><button class="copy-btn" onclick="copyQ(this,`BEGIN
+    FOR rec IN (SELECT ENAME,SAL FROM SCOTT.EMP) LOOP
+        IF rec.SAL > 3000 THEN
+            DBMS_OUTPUT.PUT_LINE(rec.ENAME);
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>BEGIN
+    FOR rec IN (SELECT ENAME,SAL FROM SCOTT.EMP) LOOP
+        IF rec.SAL &gt; 3000 THEN
+            DBMS_OUTPUT.PUT_LINE(rec.ENAME);
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>KING</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P28</span><span class="qtitle">Count employees</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    c NUMBER := 0;
+BEGIN
+    FOR rec IN (SELECT * FROM SCOTT.EMP) LOOP
+        c := c + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(c);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    c NUMBER := 0;
+BEGIN
+    FOR rec IN (SELECT * FROM SCOTT.EMP) LOOP
+        c := c + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(c);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>14</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P29</span><span class="qtitle">All loop types combined</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        EXIT WHEN i>3;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+    WHILE i<=5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+    FOR j IN 6..8 LOOP
+        DBMS_OUTPUT.PUT_LINE(j);
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        EXIT WHEN i&gt;3;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+    WHILE i&lt;=5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+    FOR j IN 6..8 LOOP
+        DBMS_OUTPUT.PUT_LINE(j);
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P30</span><span class="qtitle">Prime numbers 1 to 50</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    i NUMBER; j NUMBER; flag NUMBER;
+BEGIN
+    FOR i IN 2..50 LOOP
+        flag := 1;
+        FOR j IN 2..i-1 LOOP
+            IF MOD(i,j)=0 THEN flag:=0; EXIT; END IF;
+        END LOOP;
+        IF flag=1 THEN DBMS_OUTPUT.PUT_LINE(i); END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    i NUMBER; j NUMBER; flag NUMBER;
+BEGIN
+    FOR i IN 2..50 LOOP
+        flag := 1;
+        FOR j IN 2..i-1 LOOP
+            IF MOD(i,j)=0 THEN flag:=0; EXIT; END IF;
+        END LOOP;
+        IF flag=1 THEN DBMS_OUTPUT.PUT_LINE(i); END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>2</div><div>3</div><div>5</div><div>7</div><div>11</div><div>13</div><div>17</div><div>19</div><div>23</div><div>29</div><div>31</div><div>37</div><div>41</div><div>43</div><div>47</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P31</span><span class="qtitle">ATM login attempts</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    attempts NUMBER := 3;
+    pin NUMBER := 123;
+    input NUMBER := 0;
+BEGIN
+    WHILE attempts > 0 LOOP
+        input := 123;
+        IF input = pin THEN
+            DBMS_OUTPUT.PUT_LINE(\'Success\');
+            EXIT;
+        ELSE
+            attempts := attempts - 1;
+        END IF;
+    END LOOP;
+END;
+/`)">Copy</button></div><pre>DECLARE
+    attempts NUMBER := 3;
+    pin NUMBER := 123;
+    input NUMBER := 0;
+BEGIN
+    WHILE attempts &gt; 0 LOOP
+        input := 123;
+        IF input = pin THEN
+            DBMS_OUTPUT.PUT_LINE('Success');
+            EXIT;
+        ELSE
+            attempts := attempts - 1;
+        END IF;
+    END LOOP;
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Success</div></div></div></div><div class="qcard"><div class="qcard-head"><span class="qnum">P32</span><span class="qtitle">Sum of even and odd numbers</span><button class="copy-btn" onclick="copyQ(this,`DECLARE
+    even_sum NUMBER := 0;
+    odd_sum NUMBER := 0;
+BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2)=0 THEN
+            even_sum := even_sum + i;
+        ELSE
+            odd_sum := odd_sum + i;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(\'Even=\'||even_sum||\' Odd=\'||odd_sum);
+END;
+/`)">Copy</button></div><pre>DECLARE
+    even_sum NUMBER := 0;
+    odd_sum NUMBER := 0;
+BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2)=0 THEN
+            even_sum := even_sum + i;
+        ELSE
+            odd_sum := odd_sum + i;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Even='||even_sum||' Odd='||odd_sum);
+END;
+/</pre><div class="output-section"><div class="output-label">📟 DBMS_OUTPUT</div><div class="plsql-out"><div>Even=110 Odd=100</div></div></div></div><div class="no-results" id="noResults">No programs match your search.</div></div><footer>SCOTT Schema Reference &middot; scott.emp &amp; scott.dept &middot; Oracle SQL &amp; PL/SQL</footer><script>function copyQ(btn,code){navigator.clipboard.writeText(code);btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);}function filterQueries(){const val=document.getElementById('searchBox').value.toLowerCase();const cards=document.querySelectorAll('.qcard');let v=0;cards.forEach(c=>{const t=c.textContent.toLowerCase();if(t.includes(val)){c.style.display='';v++;}else c.style.display='none';});document.getElementById('resultCount').textContent=v+' queries found';document.getElementById('noResults').style.display=v===0?'block':'none';}</script></body></html>
